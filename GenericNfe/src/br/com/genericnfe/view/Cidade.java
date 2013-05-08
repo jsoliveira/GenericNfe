@@ -1,5 +1,5 @@
 
-package view;
+package br.com.genericnfe.view;
 
 /**
  *
