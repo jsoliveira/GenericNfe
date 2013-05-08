@@ -9,6 +9,9 @@ public class ConexaoPostgress {
     public static Statement statement;
     public static ResultSet resultset;
     public static ResultSetMetaData metaData;
+    public static final String usuario = "postgres";
+    public static final String url = "jdbc:postgresql://192.168.69.50:5432/postgres";
+    public static final String senha = "system";
 
     public ConexaoPostgress() {
         conecta();
@@ -17,34 +20,32 @@ public class ConexaoPostgress {
     public static Connection conecta() {
         if (ConexaoPostgress != null) {
             return ConexaoPostgress;
-        } else {
-            String url = "jdbc:postgresql://192.168.69.50:5432/postgres";
-            String usuario = "postgres";
-            // String senha = "acs1707$";
-            String senha = "system";
-
-            try {
-                Class.forName("org.postgresql.Driver");
-                ConexaoPostgress = DriverManager.getConnection(url, usuario, senha);
-                System.out.println("Conectado");
-                return ConexaoPostgress;
-            } catch (ClassNotFoundException ex) {
-                JOptionPane.showMessageDialog(null, "Driver não localizado: ");
-                ex.printStackTrace();
-                return null;
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Erro na conexão com a fonte de dados: ");
-                ex.printStackTrace();
-                return null;
-            }
         }
+
+        try {
+
+            Class.forName("org.postgresql.Driver");
+            ConexaoPostgress = DriverManager.getConnection(url, usuario, senha);
+            System.out.println("Conectado");
+            return ConexaoPostgress;
+
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Driver não localizado: ");
+            ex.printStackTrace();
+            return null;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro na conexão com a fonte de dados: ");
+            ex.printStackTrace();
+            return null;
+        }
+
     }
 
     public void desconecta() {
         boolean result = true;
         try {
             ConexaoPostgress.close();
-            // JOptionPane.showMessageDialog(null, "banco fechado");
+           
         } catch (SQLException fecha) {
             JOptionPane.showMessageDialog(null, "Não foi possivel "
                     + "fechar o banco de dados: " + fecha);
@@ -56,7 +57,7 @@ public class ConexaoPostgress {
         try {
             statement = ConexaoPostgress.createStatement(
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            // System.out.println(sql);
+           
             resultset = statement.executeQuery(sql);
 
         } catch (SQLException ex) {
@@ -83,11 +84,11 @@ public class ConexaoPostgress {
         } catch (SQLException sqlex) {
 
             int erro = Integer.parseInt(sqlex.getSQLState());
-            
-            System.out.println( erro);
-            
+
+            System.out.println(erro);
+
             if (erro == 23503) {
-                 JOptionPane.showMessageDialog(null, "O Registro não pode ser Excluido. Possui outras dependencias! ");
+                JOptionPane.showMessageDialog(null, "O Registro não pode ser Excluido. Possui outras dependencias! ");
             } else {
 
                 JOptionPane.showMessageDialog(null, "Não foi possível "

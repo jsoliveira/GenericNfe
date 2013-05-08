@@ -1,4 +1,3 @@
-
 package br.com.genericnfe.connections;
 
 import java.io.File;
@@ -11,11 +10,11 @@ import javax.swing.*;
 public class ConexaoOracle {
 
     final private String driver = "oracle.jdbc.driver.OracleDriver";
-    final private String url = "jdbc:oracle:thin:@192.168.69.12:1521:PROD";
-    final private String usuario = "desenvagricola";
-    final private String senha = "desenvagricola";
-    final private String usuarioprod = "prodagricola";
-    final private String senhaprod = "prodagricola";
+    final private String url = "jdbc:oracle:thin:@localhost:1521:XE";
+    final private String usuario = "desenvnfe";
+    final private String senha = "desenvnfe";
+    final private String usuarioprod = "prodnfe";
+    final private String senhaprod = "prodnfe";
     private Connection ConexaoOracle;
     public Statement statement;
     public ResultSet resultset;
@@ -29,27 +28,35 @@ public class ConexaoOracle {
     public int retorno = 0; // 0 = sem erro de retorno, 1 = violou chave primaria
     int conta = 0;
 
-    public boolean conecta(int banco) {
-        boolean result = true;
+    public Connection conecta(int banco) {
+
+        Connection retorno;
+        
+        if (this.ConexaoOracle != null) {
+
+            return this.ConexaoOracle;
+        }
+        
         try {
             Class.forName(driver);
             if (banco == 0) {
-                ConexaoOracle = DriverManager.getConnection(url, usuario, senha);
+            retorno=     ConexaoOracle = DriverManager.getConnection(url, usuario, senha);
             } else {
-                ConexaoOracle = DriverManager.getConnection(url, usuarioprod, senhaprod);
+            retorno=    ConexaoOracle = DriverManager.getConnection(url, usuarioprod, senhaprod);
             }
 
             databaseMetaData = ConexaoOracle.getMetaData();
-            // JOptionPane.showMessageDialog(null,"conectou");
+            System.out.println("conectou");
         } catch (ClassNotFoundException Driver) {
             JOptionPane.showMessageDialog(null, "Driver não localizado: " + Driver);
-            result = false;
+            retorno= null;
         } catch (SQLException Fonte) {
             JOptionPane.showMessageDialog(null, "Deu erro na conexão "
                     + "com a fonte de dados: " + Fonte);
-            result = false;
+            retorno= null;
         }
-        return result;
+        
+        return retorno;
     }
 
     public void desconecta() {
@@ -243,8 +250,7 @@ public class ConexaoOracle {
 
         return array;
     }
-    
-    
+
     public void incluirSQL(String sql) {
         try {
             statement = ConexaoOracle.createStatement(
@@ -263,5 +269,25 @@ public class ConexaoOracle {
             }
             retorno = 0;
         }
+    }
+
+    public Connection getConexaoOracle() {
+        return ConexaoOracle;
+    }
+
+    public void setConexaoOracle(Connection ConexaoOracle) {
+        this.ConexaoOracle = ConexaoOracle;
+    }
+
+    public static void main(String[] args) {
+
+
+        ConexaoOracle co = new ConexaoOracle();
+
+        co.conecta(0);
+
+     
+
+
     }
 }
