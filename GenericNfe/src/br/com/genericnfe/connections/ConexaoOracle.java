@@ -1,3 +1,4 @@
+
 package br.com.genericnfe.connections;
 
 import java.io.File;

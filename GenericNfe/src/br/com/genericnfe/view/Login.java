@@ -1,12 +1,18 @@
 package br.com.genericnfe.view;
 
+import br.com.genericnfe.dao.UsuarioDao;
+import br.com.genericnfe.model.Usuario;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author jsoliveira
  */
 public class Login extends javax.swing.JFrame {
     
-    br.com.genericnfe.model.TelaPrincipal tp;
+    UsuarioDao uDao = new UsuarioDao();
     
     public Login() {
         initComponents();
@@ -27,8 +33,8 @@ public class Login extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jCBBase = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        jTfUsuario = new javax.swing.JTextField();
+        jTfSenha = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -43,7 +49,12 @@ public class Login extends javax.swing.JFrame {
 
         jLabel3.setText("Banco de Dados");
 
-        jCBBase.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Produção", "Desenvolvimento" }));
+        jCBBase.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Desenvolvimento", "Produção" }));
+        jCBBase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBBaseActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Base");
 
@@ -79,8 +90,8 @@ public class Login extends javax.swing.JFrame {
                         .addGap(146, 146, 146))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField4)
-                            .addComponent(jTextField3)
+                            .addComponent(jTfSenha)
+                            .addComponent(jTfUsuario)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
@@ -108,11 +119,11 @@ public class Login extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
@@ -137,9 +148,10 @@ public class Login extends javax.swing.JFrame {
         switch (jCBBanco.getSelectedIndex()) {
             
             case 0:
-                tp.setBancoDados(0);
+                br.com.genericnfe.model.Banco.BANCO.setBanco(0);
+            
             case 1:
-                tp.setBancoDados(1);
+                br.com.genericnfe.model.Banco.BANCO.setBanco(1);
             
         }
         
@@ -147,23 +159,44 @@ public class Login extends javax.swing.JFrame {
         switch (jCBBase.getSelectedIndex()) {
             
             case 0:
-                tp.setBancoVersao(0);
+                br.com.genericnfe.model.Banco.BANCO.setBase(0);
+            
             case 1:
-                tp.setBancoVersao(1);
+                br.com.genericnfe.model.Banco.BANCO.setBase(1);
             
         }
-    
-        new TelaPrincipal().setVisible(true);
-       /// dispose();
+        
+        
+        if (!validaUser()) {
+            
+            JOptionPane.showMessageDialog(null, "Usuário ou senha incorreto!");
+            jTfSenha.setText("");
+            jTfUsuario.setText("");
+            return;
+        }
+        
+        TelaPrincipal tp = new TelaPrincipal();
+        tp.jLabelUsuario.setText(jTfUsuario.getText());
+        tp.jLabelBanco.setText(jCBBanco.getSelectedItem().toString());
+        tp.jLabelBase.setText(jCBBase.getSelectedItem().toString());
+        tp.jLabelDataLogin.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+        tp.jLabelHoraLogin.setText(new SimpleDateFormat("h:mm - a").format(new Date()));
+        
+        tp.setVisible(true);        
+        dispose();
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-       dispose();
-
+        
+        dispose();
+        
     }//GEN-LAST:event_jButton2ActionPerformed
+    
+    private void jCBBaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBBaseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCBBaseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -215,7 +248,28 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTfSenha;
+    private javax.swing.JTextField jTfUsuario;
     // End of variables declaration//GEN-END:variables
+
+    private Usuario getUsuario() {
+        
+        return new Usuario(0, null, jTfUsuario.getText().toUpperCase(), jTfSenha.getText().toUpperCase(), null);
+    }
+    
+    public boolean validaUser() {
+        if (jTfUsuario.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Informe o Usuário");
+            jTfUsuario.grabFocus();
+            return false;
+        }
+        
+        if (jTfSenha.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Informe a Senha");
+            jTfSenha.grabFocus();
+            return false;
+        }
+        
+        return uDao.validaLogin(getUsuario());
+    }
 }

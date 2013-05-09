@@ -9,15 +9,18 @@ public class ConexaoPostgress {
     public static Statement statement;
     public static ResultSet resultset;
     public static ResultSetMetaData metaData;
-    public static final String usuario = "postgres";
-    public static final String url = "jdbc:postgresql://192.168.69.50:5432/postgres";
-    public static final String senha = "system";
+    public static final String usuariodesenv = "desenvnfe";
+    public static final String senhadesenv = "desenvnfe";
+    public static final String urlprod = "jdbc:postgresql://localhost:5432/prodnfe";
+    public static final String urldesnv = "jdbc:postgresql://localhost:5432/desenvnfe";
+    public static final String usuarioprod = "prodnfe";
+    public static final String senhaprod = "prodnfe";
 
     public ConexaoPostgress() {
-        conecta();
+        
     }
 
-    public static Connection conecta() {
+    public static Connection conecta(int banco) {
         if (ConexaoPostgress != null) {
             return ConexaoPostgress;
         }
@@ -25,7 +28,11 @@ public class ConexaoPostgress {
         try {
 
             Class.forName("org.postgresql.Driver");
-            ConexaoPostgress = DriverManager.getConnection(url, usuario, senha);
+            if (banco == 0) {
+                ConexaoPostgress = DriverManager.getConnection(urldesnv, usuariodesenv, senhadesenv);
+            } else {
+                ConexaoPostgress = DriverManager.getConnection(urlprod, usuarioprod, senhaprod);
+            }
             System.out.println("Conectado");
             return ConexaoPostgress;
 
@@ -45,7 +52,7 @@ public class ConexaoPostgress {
         boolean result = true;
         try {
             ConexaoPostgress.close();
-           
+
         } catch (SQLException fecha) {
             JOptionPane.showMessageDialog(null, "Não foi possivel "
                     + "fechar o banco de dados: " + fecha);
@@ -57,7 +64,7 @@ public class ConexaoPostgress {
         try {
             statement = ConexaoPostgress.createStatement(
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-           
+
             resultset = statement.executeQuery(sql);
 
         } catch (SQLException ex) {
@@ -100,6 +107,8 @@ public class ConexaoPostgress {
 
     public static void main(String args[]) {
         ConexaoPostgress Obj1 = new ConexaoPostgress();
-        Obj1.conecta();
+        
+        Obj1.executeSQL("insert into cad_uf values(85,'MARINGA','PR');");
+
     }
 }
