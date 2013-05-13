@@ -1,18 +1,18 @@
 package br.com.genericnfe.view;
 
+import br.com.genericnfe.connections.Conexao;
+
 /**
  *
  * @author jsoliveira
  */
 public class TelaPrincipal extends javax.swing.JFrame {
 
-    br.com.genericnfe.model.Banco principal;
+    
 
     public TelaPrincipal() {
         initComponents();
-
         setExtendedState(MAXIMIZED_BOTH);
-
     }
 
     /**
@@ -39,51 +39,63 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabelDataLogin = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabelHoraLogin = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
+        jMenuNotaFiscal = new javax.swing.JMenu();
+        jMenuNota = new javax.swing.JMenuItem();
+        jMenuGerenciarNotas = new javax.swing.JMenuItem();
+        jMenuInutilizcoes = new javax.swing.JMenu();
+        jMenuEmitente = new javax.swing.JMenu();
         jMenuCadastro = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuLocalidades = new javax.swing.JMenu();
+        jMenuUf = new javax.swing.JMenuItem();
+        jMenuItemCidade = new javax.swing.JMenuItem();
+        jMenuSistema = new javax.swing.JMenu();
+        jMenuItemParametros = new javax.swing.JMenuItem();
+        jMenuItemCertificados = new javax.swing.JMenuItem();
+        jMenuSair = new javax.swing.JMenu();
+        jMenuClose = new javax.swing.JMenuItem();
+        jMenuLogoff = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("GenericNfe");
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
-
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jLabelUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelUsuario.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabelUsuario.setText("jLabel3");
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setText("Usuário:");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel4.setText("Banco de Dados:");
 
-        jLabelBanco.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelBanco.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabelBanco.setText("jLabel3");
 
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel5.setText("Base:");
 
-        jLabelBase.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelBase.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabelBase.setText("jLabel3");
 
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel6.setText("Data do login:");
 
-        jLabelDataLogin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelDataLogin.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabelDataLogin.setText("jLabel3");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel7.setText("Hora do login:");
 
-        jLabelHoraLogin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelHoraLogin.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabelHoraLogin.setText("jLabel3");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -91,72 +103,144 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelUsuario)
-                .addGap(69, 69, 69)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(135, 135, 135)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelBanco)
-                .addGap(33, 33, 33)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelBase)
-                .addGap(97, 97, 97)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(64, 64, 64)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelDataLogin)
-                .addGap(38, 38, 38)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelHoraLogin)
-                .addGap(67, 67, 67))
+                .addContainerGap(188, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator2)
+            .addComponent(jSeparator4)
+            .addComponent(jSeparator3)
             .addComponent(jSeparator1)
-            .addComponent(jSeparator3, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
-            .addComponent(jSeparator4, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+            .addComponent(jSeparator2)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelBanco)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabelUsuario)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabelBase)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabelDataLogin)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabelHoraLogin))))
-                .addContainerGap())
+                    .addComponent(jLabel3)
+                    .addComponent(jLabelUsuario)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabelBanco)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabelBase)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabelDataLogin)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabelHoraLogin))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        jMenuCadastro.setMnemonic('c');
-        jMenuCadastro.setText("Cadastro");
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/genericnfe/view/logo-nfe.jpg"))); // NOI18N
+
+        jMenuNotaFiscal.setMnemonic('N');
+        jMenuNotaFiscal.setText("Notas Fiscais");
+
+        jMenuNota.setMnemonic('E');
+        jMenuNota.setText("Emitir Notas");
+        jMenuNotaFiscal.add(jMenuNota);
+
+        jMenuGerenciarNotas.setMnemonic('G');
+        jMenuGerenciarNotas.setText("Gerenciar Notas");
+        jMenuNotaFiscal.add(jMenuGerenciarNotas);
+
+        jMenuInutilizcoes.setMnemonic('I');
+        jMenuInutilizcoes.setText("Inutilizações");
+        jMenuNotaFiscal.add(jMenuInutilizcoes);
+
+        jMenuBar.add(jMenuNotaFiscal);
+
+        jMenuEmitente.setMnemonic('E');
+        jMenuEmitente.setText("Emitente");
+        jMenuBar.add(jMenuEmitente);
+
+        jMenuCadastro.setMnemonic('C');
+        jMenuCadastro.setText("Cadastros");
+
+        jMenuLocalidades.setText("Localidades");
+
+        jMenuUf.setMnemonic('L');
+        jMenuUf.setText("Unidade Federativa (UF)");
+        jMenuUf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuUfActionPerformed(evt);
+            }
+        });
+        jMenuLocalidades.add(jMenuUf);
+
+        jMenuItemCidade.setMnemonic('C');
+        jMenuItemCidade.setText("Cidade");
+        jMenuItemCidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCidadeActionPerformed(evt);
+            }
+        });
+        jMenuLocalidades.add(jMenuItemCidade);
+
+        jMenuCadastro.add(jMenuLocalidades);
+
         jMenuBar.add(jMenuCadastro);
 
-        jMenu2.setText("Edit");
-        jMenuBar.add(jMenu2);
+        jMenuSistema.setMnemonic('S');
+        jMenuSistema.setText("Sistema");
+
+        jMenuItemParametros.setMnemonic('P');
+        jMenuItemParametros.setText("Parâmetros");
+        jMenuSistema.add(jMenuItemParametros);
+
+        jMenuItemCertificados.setMnemonic('C');
+        jMenuItemCertificados.setText("Certificados");
+        jMenuSistema.add(jMenuItemCertificados);
+
+        jMenuBar.add(jMenuSistema);
+
+        jMenuSair.setMnemonic('r');
+        jMenuSair.setText("Sair");
+
+        jMenuClose.setMnemonic('T');
+        jMenuClose.setText("Trocar de Usuario");
+        jMenuClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCloseActionPerformed(evt);
+            }
+        });
+        jMenuSair.add(jMenuClose);
+
+        jMenuLogoff.setMnemonic('S');
+        jMenuLogoff.setText("Sair");
+        jMenuLogoff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuLogoffActionPerformed(evt);
+            }
+        });
+        jMenuSair.add(jMenuLogoff);
+
+        jMenuBar.add(jMenuSair);
 
         setJMenuBar(jMenuBar);
 
@@ -164,18 +248,42 @@ public class TelaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1024, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(183, 183, 183))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 640, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-1040)/2, (screenSize.height-759)/2, 1040, 759);
+        setBounds((screenSize.width-1223)/2, (screenSize.height-759)/2, 1223, 759);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuUfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuUfActionPerformed
+        new CadUf().setVisible(true);
+    }//GEN-LAST:event_jMenuUfActionPerformed
+
+    private void jMenuLogoffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuLogoffActionPerformed
+       dispose();
+    }//GEN-LAST:event_jMenuLogoffActionPerformed
+
+    private void jMenuCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCloseActionPerformed
+        new Conexao().desconecta();
+        new Login().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jMenuCloseActionPerformed
+
+    private void jMenuItemCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCidadeActionPerformed
+       new CadCidade().setVisible(true);
+    }//GEN-LAST:event_jMenuItemCidadeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -219,6 +327,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -229,9 +338,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public javax.swing.JLabel jLabelDataLogin;
     public javax.swing.JLabel jLabelHoraLogin;
     public javax.swing.JLabel jLabelUsuario;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuCadastro;
+    private javax.swing.JMenuItem jMenuClose;
+    private javax.swing.JMenu jMenuEmitente;
+    private javax.swing.JMenuItem jMenuGerenciarNotas;
+    private javax.swing.JMenu jMenuInutilizcoes;
+    private javax.swing.JMenuItem jMenuItemCertificados;
+    private javax.swing.JMenuItem jMenuItemCidade;
+    private javax.swing.JMenuItem jMenuItemParametros;
+    private javax.swing.JMenu jMenuLocalidades;
+    private javax.swing.JMenuItem jMenuLogoff;
+    private javax.swing.JMenuItem jMenuNota;
+    private javax.swing.JMenu jMenuNotaFiscal;
+    private javax.swing.JMenu jMenuSair;
+    private javax.swing.JMenu jMenuSistema;
+    private javax.swing.JMenuItem jMenuUf;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;

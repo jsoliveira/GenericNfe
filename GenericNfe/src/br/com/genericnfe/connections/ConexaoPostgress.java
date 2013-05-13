@@ -30,10 +30,12 @@ public class ConexaoPostgress {
             Class.forName("org.postgresql.Driver");
             if (banco == 0) {
                 ConexaoPostgress = DriverManager.getConnection(urldesnv, usuariodesenv, senhadesenv);
+                System.out.println("Conectado Postgress Desenvolvimento");
             } else {
                 ConexaoPostgress = DriverManager.getConnection(urlprod, usuarioprod, senhaprod);
+                   System.out.println("Conectado Postgress Produção");
             }
-            System.out.println("Conectado");
+         
             return ConexaoPostgress;
 
         } catch (ClassNotFoundException ex) {

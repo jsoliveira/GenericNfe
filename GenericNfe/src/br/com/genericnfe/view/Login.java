@@ -1,7 +1,9 @@
 package br.com.genericnfe.view;
 
 import br.com.genericnfe.dao.UsuarioDao;
+import br.com.genericnfe.model.Banco;
 import br.com.genericnfe.model.Usuario;
+import br.com.genericnfe.tools.LookAndFeelWindows;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -11,11 +13,13 @@ import javax.swing.JOptionPane;
  * @author jsoliveira
  */
 public class Login extends javax.swing.JFrame {
-    
-    UsuarioDao uDao = new UsuarioDao();
-    
+
+    UsuarioDao uDao;
+    LookAndFeelWindows lafw = new LookAndFeelWindows();
+
     public Login() {
         initComponents();
+        lafw.Windows(this);
     }
 
     /**
@@ -34,19 +38,25 @@ public class Login extends javax.swing.JFrame {
         jCBBase = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         jTfUsuario = new javax.swing.JTextField();
-        jTfSenha = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jBtLimpar = new javax.swing.JButton();
+        jBtSair = new javax.swing.JButton();
+        jTfSenha = new javax.swing.JPasswordField();
+        jBtEntrar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Autenticação");
+        setIconImages(null);
+        setResizable(false);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Usuário");
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("Senha");
 
         jCBBanco.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Oracle", "PostgreSQL" }));
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("Banco de Dados");
 
         jCBBase.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Desenvolvimento", "Produção" }));
@@ -56,25 +66,36 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("Base");
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton1.setMnemonic('E');
-        jButton1.setText("Entrar");
-        jButton1.setPreferredSize(new java.awt.Dimension(80, 40));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jBtLimpar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jBtLimpar.setMnemonic('L');
+        jBtLimpar.setText("Limpar");
+        jBtLimpar.setPreferredSize(new java.awt.Dimension(80, 40));
+        jBtLimpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jBtLimparActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton2.setMnemonic('S');
-        jButton2.setText("Sair");
-        jButton2.setPreferredSize(new java.awt.Dimension(80, 40));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jBtSair.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jBtSair.setMnemonic('S');
+        jBtSair.setText("Sair");
+        jBtSair.setPreferredSize(new java.awt.Dimension(80, 40));
+        jBtSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jBtSairActionPerformed(evt);
+            }
+        });
+
+        jBtEntrar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jBtEntrar.setMnemonic('E');
+        jBtEntrar.setText("Entrar");
+        jBtEntrar.setPreferredSize(new java.awt.Dimension(80, 40));
+        jBtEntrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtEntrarActionPerformed(evt);
             }
         });
 
@@ -82,121 +103,95 @@ public class Login extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(146, 146, 146))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTfSenha)
-                            .addComponent(jTfUsuario)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jCBBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jCBBase, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(82, 82, 82)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jLabel2)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jBtEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtSair, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jCBBanco, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jCBBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTfSenha, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTfUsuario, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(128, 128, 128))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addGap(38, 38, 38)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCBBanco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCBBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCBBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCBBanco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                    .addComponent(jBtEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtSair, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-360)/2, (screenSize.height-339)/2, 360, 339);
+        setBounds((screenSize.width-262)/2, (screenSize.height-294)/2, 262, 294);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        switch (jCBBanco.getSelectedIndex()) {
-            
-            case 0:
-                br.com.genericnfe.model.Banco.BANCO.setBanco(0);
-            
-            case 1:
-                br.com.genericnfe.model.Banco.BANCO.setBanco(1);
-            
-        }
-        
-        
-        switch (jCBBase.getSelectedIndex()) {
-            
-            case 0:
-                br.com.genericnfe.model.Banco.BANCO.setBase(0);
-            
-            case 1:
-                br.com.genericnfe.model.Banco.BANCO.setBase(1);
-            
-        }
-        
-        
+    private void jBtLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtLimparActionPerformed
+
+        jTfUsuario.setText("");
+        jTfSenha.setText("");
+
+
+    }//GEN-LAST:event_jBtLimparActionPerformed
+
+    private void jBtSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSairActionPerformed
+
+        dispose();
+
+    }//GEN-LAST:event_jBtSairActionPerformed
+
+    private void jCBBaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBBaseActionPerformed
+    }//GEN-LAST:event_jCBBaseActionPerformed
+
+    private void jBtEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtEntrarActionPerformed
+        Banco.setBanco(jCBBanco.getSelectedIndex());
+        Banco.setBase(jCBBase.getSelectedIndex());
+
         if (!validaUser()) {
-            
-            JOptionPane.showMessageDialog(null, "Usuário ou senha incorreto!");
-            jTfSenha.setText("");
-            jTfUsuario.setText("");
+
+            JOptionPane.showMessageDialog(null, "Usuário ou senha incorreto(s)!");
             return;
         }
-        
-        TelaPrincipal tp = new TelaPrincipal();
-        tp.jLabelUsuario.setText(jTfUsuario.getText());
-        tp.jLabelBanco.setText(jCBBanco.getSelectedItem().toString());
-        tp.jLabelBase.setText(jCBBase.getSelectedItem().toString());
-        tp.jLabelDataLogin.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
-        tp.jLabelHoraLogin.setText(new SimpleDateFormat("h:mm - a").format(new Date()));
-        
-        tp.setVisible(true);        
-        dispose();
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
-    
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-        dispose();
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
-    
-    private void jCBBaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBBaseActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCBBaseActionPerformed
+
+        telaPrincipal();
+    }//GEN-LAST:event_jBtEntrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -233,43 +228,60 @@ public class Login extends javax.swing.JFrame {
          * Create and display the form
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            
+
             public void run() {
                 new Login().setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jBtEntrar;
+    private javax.swing.JButton jBtLimpar;
+    private javax.swing.JButton jBtSair;
     private javax.swing.JComboBox jCBBanco;
     private javax.swing.JComboBox jCBBase;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTfSenha;
+    private javax.swing.JPasswordField jTfSenha;
     private javax.swing.JTextField jTfUsuario;
     // End of variables declaration//GEN-END:variables
 
     private Usuario getUsuario() {
-        
+
         return new Usuario(0, null, jTfUsuario.getText().toUpperCase(), jTfSenha.getText().toUpperCase(), null);
     }
-    
+
     public boolean validaUser() {
+
+
         if (jTfUsuario.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Informe o Usuário");
             jTfUsuario.grabFocus();
             return false;
         }
-        
+
         if (jTfSenha.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Informe a Senha");
             jTfSenha.grabFocus();
             return false;
         }
-        
+
+        uDao = new UsuarioDao();
         return uDao.validaLogin(getUsuario());
+    }
+
+    private void telaPrincipal() {
+
+        TelaPrincipal tp = new TelaPrincipal();
+        tp.jLabelUsuario.setText(jTfUsuario.getText());
+        tp.jLabelBanco.setText(jCBBanco.getSelectedItem().toString());
+        tp.jLabelBase.setText(jCBBase.getSelectedItem().toString());
+        tp.jLabelDataLogin.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+        tp.jLabelHoraLogin.setText(new SimpleDateFormat("hh:mm").format(new Date()));
+        tp.setVisible(true);
+        dispose();
+
     }
 }

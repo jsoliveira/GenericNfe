@@ -1,20 +1,44 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.genericnfe.view;
+
+import br.com.genericnfe.dao.UfDao;
+import br.com.genericnfe.model.Uf;
+import br.com.genericnfe.tools.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JToggleButton;
 
 /**
  *
  * @author jsoliveira
  */
 public class CadUf extends javax.swing.JFrame {
-
-    /**
-     * Creates new form CadUf
-     */
+    
+    private ValidaEstadoBotoes validaEstadoBotoes = new ValidaEstadoBotoes();
+    private ValidaEstadoJTabbed validaEstadoJTabbed = new ValidaEstadoJTabbed();
+    private LookAndFeelWindows lookAndFeel = new LookAndFeelWindows();
+    private PreencherJtableGenerico generico = new PreencherJtableGenerico();
+    private ValidaNumerico vn = new ValidaNumerico();
+    private LimparCampos lc = new LimparCampos();
+    private UpperCase uc = new UpperCase();
+    private int estado;
+    private Estado e = new Estado();
+    private UfDao ufDao = new UfDao();
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    
     public CadUf() {
         initComponents();
+        
+        lookAndFeel.Windows(this);
+        validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
+        setEstado(e.padrao);
+        generico.PreencherJtableTipos(jTablePesquisa, new int[]{80, 180, 80, 100});
+        uc.UpperContainer(jPnCadastro);
+        uc.UpperContainer(jPnConsulta);
     }
 
     /**
@@ -41,9 +65,11 @@ public class CadUf extends javax.swing.JFrame {
         jBtExcluir = new javax.swing.JButton();
         jBtGravar = new javax.swing.JButton();
         jBtCancelar = new javax.swing.JButton();
+        jTfDtTransacao = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         jPnConsulta = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTablePesquisa = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jCbTipoPesquisa = new javax.swing.JComboBox();
         jTfValor = new javax.swing.JTextField();
@@ -56,7 +82,14 @@ public class CadUf extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jBtAlterarSelecionado = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
+
+        jTabbed.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedStateChanged(evt);
+            }
+        });
 
         jTfCod.setEditable(false);
 
@@ -71,32 +104,62 @@ public class CadUf extends javax.swing.JFrame {
         jBtIncluir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jBtIncluir.setText("Incluir");
         jBtIncluir.setPreferredSize(new java.awt.Dimension(100, 40));
+        jBtIncluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtIncluirActionPerformed(evt);
+            }
+        });
         jPnBotoes.add(jBtIncluir);
 
         jBtAlterar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jBtAlterar.setText("Alterar");
         jBtAlterar.setPreferredSize(new java.awt.Dimension(100, 40));
+        jBtAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtAlterarActionPerformed(evt);
+            }
+        });
         jPnBotoes.add(jBtAlterar);
 
         jBtExcluir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jBtExcluir.setText("Excluir");
         jBtExcluir.setPreferredSize(new java.awt.Dimension(100, 40));
+        jBtExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtExcluirActionPerformed(evt);
+            }
+        });
         jPnBotoes.add(jBtExcluir);
 
         jBtGravar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jBtGravar.setText("Gravar");
         jBtGravar.setPreferredSize(new java.awt.Dimension(100, 40));
+        jBtGravar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtGravarActionPerformed(evt);
+            }
+        });
         jPnBotoes.add(jBtGravar);
 
         jBtCancelar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jBtCancelar.setText("Cancelar");
         jBtCancelar.setPreferredSize(new java.awt.Dimension(100, 40));
+        jBtCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtCancelarActionPerformed(evt);
+            }
+        });
         jPnBotoes.add(jBtCancelar);
+
+        jTfDtTransacao.setEditable(false);
+
+        jLabel7.setText("Data da Transação");
 
         javax.swing.GroupLayout jPnCadastroLayout = new javax.swing.GroupLayout(jPnCadastro);
         jPnCadastro.setLayout(jPnCadastroLayout);
         jPnCadastroLayout.setHorizontalGroup(
             jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPnBotoes, javax.swing.GroupLayout.DEFAULT_SIZE, 749, Short.MAX_VALUE)
             .addGroup(jPnCadastroLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,9 +168,11 @@ public class CadUf extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jTfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTfCod, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTfSigla, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTfSigla, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jTfDtTransacao, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(jPnBotoes, javax.swing.GroupLayout.DEFAULT_SIZE, 749, Short.MAX_VALUE)
         );
         jPnCadastroLayout.setVerticalGroup(
             jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,31 +189,54 @@ public class CadUf extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTfSigla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel7)
+                .addGap(8, 8, 8)
+                .addComponent(jTfDtTransacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addComponent(jPnBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         jTabbed.addTab("Cadastro", jPnCadastro);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTablePesquisa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Código", "Nome", "Sigla"
+                "Código", "Nome", "Sigla", "Data Transação"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTablePesquisa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTablePesquisaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTablePesquisa);
 
         jLabel1.setText("Tipo da Pesquisa");
 
-        jCbTipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Por Código", "Por Nome" }));
+        jCbTipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Geral", "Por Código", "Por Nome", "Por Sigla" }));
 
+        jBtPesquisar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jBtPesquisar.setText("Pesquisar");
+        jBtPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtPesquisarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Valor");
 
@@ -159,11 +247,17 @@ public class CadUf extends javax.swing.JFrame {
         jRbAsc.setSelected(true);
         jRbAsc.setText("Acesdente");
 
-        jCbOrdernar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Código", "Nome", "Sigla" }));
+        jCbOrdernar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Código", "Nome", "Sigla", "Dt.Transação" }));
 
         jLabel3.setText("Ordenar");
 
+        jBtAlterarSelecionado.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jBtAlterarSelecionado.setText("Alterar Selecionado");
+        jBtAlterarSelecionado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtAlterarSelecionadoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPnConsultaLayout = new javax.swing.GroupLayout(jPnConsulta);
         jPnConsulta.setLayout(jPnConsultaLayout);
@@ -237,11 +331,139 @@ public class CadUf extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbed)
+            .addComponent(jTabbed, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
-        pack();
+        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds((screenSize.width-770)/2, (screenSize.height-423)/2, 770, 423);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBtIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtIncluirActionPerformed
+        
+        setEstado(e.incluir);
+        lc.LimparCampos(jPnCadastro);
+        validaEstadoBotoes.ValidaCamposIncluir(jPnCadastro, jPnBotoes);
+        
+    }//GEN-LAST:event_jBtIncluirActionPerformed
+    
+    private void jBtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCancelarActionPerformed
+        setEstado(e.padrao);
+        validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
+    }//GEN-LAST:event_jBtCancelarActionPerformed
+    
+    private void jBtAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarActionPerformed
+        
+        if (jTfCod.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Selecione uma Unidade Federativa para alterar");
+            return;
+        }
+        setEstado(e.alterar);
+        validaEstadoBotoes.ValidaCamposIncluir(jPnCadastro, jPnBotoes);
+    }//GEN-LAST:event_jBtAlterarActionPerformed
+    
+    private void jBtGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtGravarActionPerformed
+        
+        
+        if (valida()) {
+            
+            if (getEstado() == e.incluir) {
+                
+                jTfCod.setText((valida()) ? Integer.toString(ufDao.salvar(setUf())) : "");
+                jTfDtTransacao.setText(sdf.format(new Date()));
+                JOptionPane.showMessageDialog(null, ufDao.getMsg());
+                
+            }
+            if (getEstado() == e.alterar) {
+                ufDao.alterar(setUf());
+                JOptionPane.showMessageDialog(null, ufDao.getMsg());
+            }
+            validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
+        }
+    }//GEN-LAST:event_jBtGravarActionPerformed
+    
+    private void jBtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirActionPerformed
+        if (jTfCod.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Selecione uma Unidade Federativa para excluir");
+            return;
+        }
+        int op = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o estado do '" + jTfSigla.getText() + "' ?", "Exclusão", JOptionPane.YES_NO_OPTION);
+        
+        if (op == JOptionPane.YES_OPTION) {
+            setEstado(e.padrao);
+            ufDao.excluir(setUf());
+            JOptionPane.showMessageDialog(null, ufDao.getMsg());
+            lc.LimparCampos(jPnCadastro);
+        }
+    }//GEN-LAST:event_jBtExcluirActionPerformed
+    
+    private void jTabbedStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedStateChanged
+        validaEstadoJTabbed.ValidaEstadoJTabbed(jTabbed, jBtIncluir);
+        if (jPnConsulta.isShowing()) {
+            generico.limparJtabe(jTablePesquisa);
+        }
+    }//GEN-LAST:event_jTabbedStateChanged
+    
+    private void jBtPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisarActionPerformed
+        ufDao.setOrderByOrd((jRbAsc.isSelected()) ? "ASC" : "DESC");
+        
+        switch (jCbOrdernar.getSelectedIndex()) {
+            
+            case 0:
+                ufDao.setOrderByCampoOrd("cd_uf");
+                break;
+            case 1:
+                ufDao.setOrderByCampoOrd("nm_uf");
+                break;
+            case 2:
+                ufDao.setOrderByCampoOrd("sg_uf");
+                break;
+            case 3:
+                ufDao.setOrderByCampoOrd("dt_transacao");
+                break;
+            
+        }
+        
+        switch (jCbTipoPesquisa.getSelectedIndex()) {
+            
+            case 0:
+                generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_uf", "nm_uf", "sg_uf", "dt_transacao"}, ufDao.listarTodos());
+                break;
+            
+            case 1:
+                if (vn.validaInteiro(jTfValor)) {
+                    generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_uf", "nm_uf", "sg_uf", "dt_transacao"}, ufDao.listarCod(Integer.parseInt(jTfValor.getText())));
+                }
+                break;
+            
+            
+            case 2:
+                generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_uf", "nm_uf", "sg_uf", "dt_transacao"}, ufDao.listarNm(jTfValor.getText()));
+                break;
+            
+            
+            case 3:
+                generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_uf", "nm_uf", "sg_uf", "dt_transacao"}, ufDao.listarSg(jTfValor.getText()));
+                break;
+        }
+        
+    }//GEN-LAST:event_jBtPesquisarActionPerformed
+    
+    private void jTablePesquisaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePesquisaMouseClicked
+        
+        
+        if (evt.getClickCount() == 2) {
+            
+            jBtAlterarSelecionadoActionPerformed(null);
+        }
+        
+    }//GEN-LAST:event_jTablePesquisaMouseClicked
+    
+    private void jBtAlterarSelecionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarSelecionadoActionPerformed
+        
+        int cod = Integer.parseInt(jTablePesquisa.getValueAt(jTablePesquisa.getSelectedRow(), 0).toString());
+        getUf(ufDao.buscarCod(cod));
+        jTabbed.setSelectedIndex(0);
+    }//GEN-LAST:event_jBtAlterarSelecionadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,6 +483,10 @@ public class CadUf extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+                    
+                    
+                    
+                    
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -278,7 +504,7 @@ public class CadUf extends javax.swing.JFrame {
          * Create and display the form
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
-
+            
             public void run() {
                 new CadUf().setVisible(true);
             }
@@ -301,6 +527,7 @@ public class CadUf extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPnBotoes;
     private javax.swing.JPanel jPnCadastro;
     private javax.swing.JPanel jPnConsulta;
@@ -309,10 +536,69 @@ public class CadUf extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbed;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTablePesquisa;
     private javax.swing.JTextField jTfCod;
+    private javax.swing.JTextField jTfDtTransacao;
     private javax.swing.JTextField jTfNome;
     private javax.swing.JTextField jTfSigla;
     private javax.swing.JTextField jTfValor;
     // End of variables declaration//GEN-END:variables
+
+    public int getEstado() {
+        return estado;
+    }
+    
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+    
+    private Uf setUf() {
+        
+        
+        
+        int cod = (jTfCod.getText().isEmpty()) ? 0 : Integer.parseInt(jTfCod.getText());
+        String nome = jTfNome.getText();
+        String sigla = jTfSigla.getText();
+        Date date = null;
+        try {
+            date = (jTfDtTransacao.getText().isEmpty()) ? new Date() : sdf.parse(jTfDtTransacao.getText());
+        } catch (ParseException ex) {
+            Logger.getLogger(CadUf.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Uf u = new Uf(cod, nome, sigla, date);
+        
+        return u;
+        
+    }
+    
+    public void getUf(Uf u) {
+        
+        
+        jTfCod.setText(Integer.toString(u.getCd_uf()));
+        jTfNome.setText(u.getNm_uf());
+        jTfSigla.setText(u.getSg_uf());
+        jTfDtTransacao.setText(sdf.format(u.getDt_transacao()));
+        
+    }
+    
+    public boolean valida() {
+        
+        if (jTfNome.getText().isEmpty()) {
+            
+            JOptionPane.showMessageDialog(null, "Informe o Nome da Unidade Federativa");
+            return false;
+        }
+        
+        if (jTfSigla.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Informe a Sigla da Unidade Federativa");
+            return false;
+        }
+        
+        if (jTfSigla.getText().length() != 2) {
+            JOptionPane.showMessageDialog(null, "A Sigla do estado deve conter dois caracteres exemplo Paraná Sigla:'PR'");
+            return false;
+        }
+        
+        return true;
+    }
 }

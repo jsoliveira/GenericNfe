@@ -96,22 +96,22 @@ public class UsuarioDao {
 
     public static void main(String[] args) {
 
-        Banco.BANCO.setBanco(0);
-        Banco.BANCO.setBase(1);
-        UsuarioDao uDao = new UsuarioDao();
-
-        //  uDao.setU(new Usuario(0, "RODRIGO MONTEIRO","RM","123MUDAR", new Date()));
-        //  uDao.salvar();
-
-        ArrayList<Usuario> us = uDao.listarTodos();
-
-        for (int i = 0; i <= us.size() - 1; i++) {
-            System.out.println(us.get(i).getCd_usuario());
-            System.out.print(us.get(i).getNm_usuario());
-            System.out.print(us.get(i).getDs_usuario());
-            System.out.print(us.get(i).getPw_usuario());
-            System.out.print(us.get(i).getDt_transacao());
-        }
-
+//        Banco.BANCO.setBanco(0);
+//        Banco.BANCO.setBase(1);
+//        UsuarioDao uDao = new UsuarioDao();
+//
+//        //  uDao.setU(new Usuario(0, "RODRIGO MONTEIRO","RM","123MUDAR", new Date()));
+//        //  uDao.salvar();
+//
+//        ArrayList<Usuario> us = uDao.listarTodos();
+//
+//        for (int i = 0; i <= us.size() - 1; i++) {
+//            System.out.println(us.get(i).getCd_usuario());
+//            System.out.print(us.get(i).getNm_usuario());
+//            System.out.print(us.get(i).getDs_usuario());
+//            System.out.print(us.get(i).getPw_usuario());
+//            System.out.print(us.get(i).getDt_transacao());
+//        }
+//
     }
 }

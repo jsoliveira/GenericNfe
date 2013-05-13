@@ -7,22 +7,22 @@ package br.com.genericnfe.model;
 public enum Banco {
 
     BANCO;
-    private int banco;
+    private static int banco;
+    private static int base;
 
-    public int getBanco() {
+    public static int getBanco() {
         return banco;
     }
 
-    public void setBanco(int banco) {
-        this.banco = banco;
+    public static void setBanco(int banco) {
+        Banco.banco = banco;
     }
 
-    public int getBase() {
+    public static int getBase() {
         return base;
     }
 
-    public void setBase(int base) {
-        this.base = base;
+    public static void setBase(int base) {
+        Banco.base = base;
     }
-    private int base;
 }

@@ -1,4 +1,3 @@
-
 package br.com.genericnfe.connections;
 
 import java.io.File;
@@ -32,31 +31,33 @@ public class ConexaoOracle {
     public Connection conecta(int banco) {
 
         Connection retorno;
-        
+
         if (this.ConexaoOracle != null) {
 
             return this.ConexaoOracle;
         }
-        
+
         try {
             Class.forName(driver);
             if (banco == 0) {
-            retorno=     ConexaoOracle = DriverManager.getConnection(url, usuario, senha);
+                retorno = ConexaoOracle = DriverManager.getConnection(url, usuario, senha);
+                System.out.println("Conectado Oracle Desenvolvimento");
             } else {
-            retorno=    ConexaoOracle = DriverManager.getConnection(url, usuarioprod, senhaprod);
+                retorno = ConexaoOracle = DriverManager.getConnection(url, usuarioprod, senhaprod);
+                System.out.println("Conectado Oracle Produção");
             }
 
             databaseMetaData = ConexaoOracle.getMetaData();
             System.out.println("conectou");
         } catch (ClassNotFoundException Driver) {
             JOptionPane.showMessageDialog(null, "Driver não localizado: " + Driver);
-            retorno= null;
+            retorno = null;
         } catch (SQLException Fonte) {
             JOptionPane.showMessageDialog(null, "Deu erro na conexão "
                     + "com a fonte de dados: " + Fonte);
-            retorno= null;
+            retorno = null;
         }
-        
+
         return retorno;
     }
 
@@ -287,7 +288,7 @@ public class ConexaoOracle {
 
         co.conecta(0);
 
-     
+
 
 
     }

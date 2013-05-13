@@ -3,6 +3,8 @@ package br.com.genericnfe.connections;
 import br.com.genericnfe.model.Banco;
 import br.com.genericnfe.tools.UltimaSequencia;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -11,7 +13,7 @@ import javax.swing.JOptionPane;
  */
 public class Conexao {
 
-    private Connection c;
+    private static Connection c;
     private Statement statement;
     private PreparedStatement ps;
     public ResultSet resultset;
@@ -20,30 +22,53 @@ public class Conexao {
     private ConexaoPostgress cp;
 
     public Conexao() {
+        conecta();
+    }
 
+    private void conecta() {
 
+        if (Conexao.c != null) { ///VALIDA CONEXAO
+            return;
+        }
 
-        switch (Banco.BANCO.getBanco()) {
+        switch (Banco.getBanco()) {
 
-            case 0: { // 0- BANCO DE DADOS ORACLE
+            case 0: { // 0- BANCO DE DADOS ORACLE / BASE 0-DESENVOLVIMENTO 1-PRODUCAO
                 co = new ConexaoOracle();
-                this.c = co.conecta(Banco.BANCO.getBase());
+                Conexao.c = co.conecta(Banco.getBase());
                 break;
             }
 
-            case 1: { // 1- BANCO DE DADOS POSTGRESS
+            case 1: { // 1- BANCO DE DADOS POSTGRESS / BASE 0-DESENVOLVIMENTO 1-PRODUCAO
                 cp = new ConexaoPostgress();
-                this.c = cp.conecta(Banco.BANCO.getBase());
+                Conexao.c = ConexaoPostgress.conecta(Banco.getBase());
                 break;
             }
         }
+
+    }
+
+    public void desconecta() {
+        if (Conexao.c == null) { ///VALIDA CONEXAO
+            System.out.println("Não existe conexão para desconectar");
+            return;
+        }
+        try {
+            Conexao.c.close();
+            System.out.println("Banco desconectado com Sucesso!");
+            Conexao.c=null;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi Possivel desconectar o banco\nEntre em contato com o suporte Tecnico");
+            System.out.println("Não foi possivel desconectar o Banco");
+        }
+
     }
 
     public void executeSQL(String sql) {
         try {
-            statement = this.c.createStatement(
+            statement = Conexao.c.createStatement(
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            if (Banco.BANCO.getBanco() == 0) {
+            if (Banco.getBanco() == 0) {
                 statement.execute("ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MM-YYYY'");
             }
             resultset = statement.executeQuery(sql);
@@ -60,7 +85,7 @@ public class Conexao {
 
     public boolean insertSQL(String sql) {
         try {
-            ps = this.c.prepareStatement(sql);
+            ps = Conexao.c.prepareStatement(sql);
             return ps.execute();
         } catch (SQLException sqlex) {
             JOptionPane.showMessageDialog(null, "Erro ao inserir \n" + sqlex + "\nO insert passado foi " + sql);
@@ -71,7 +96,7 @@ public class Conexao {
 
     public boolean executeUpdate(String sql) {
         try {
-            statement = this.c.createStatement(
+            statement = Conexao.c.createStatement(
                     ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             int executeUpdate = statement.executeUpdate(sql);
             return true;
@@ -79,11 +104,11 @@ public class Conexao {
         } catch (SQLException sqlex) {
 
 
-            if (Banco.BANCO.getBanco() == 0)///TRATA ERROS DO BANCO ORACLE
+            if (Banco.getBanco() == 0)///TRATA ERROS DO BANCO ORACLE
             {
             }
 
-            if (Banco.BANCO.getBanco() == 1) {///TRATA ERROS DO BANCO POSTGRESS
+            if (Banco.getBanco() == 1) {///TRATA ERROS DO BANCO POSTGRESS
                 int erro = Integer.parseInt(sqlex.getSQLState());
 
                 System.out.println(erro);
@@ -105,20 +130,18 @@ public class Conexao {
     public static void main(String[] args) throws SQLException {
 
 
-        Banco.BANCO.setBanco(1);
-        Banco.BANCO.setBase(0);
-        Conexao c = new Conexao();
+        Banco.setBanco(0);
+        Banco.setBase(0);
+        Conexao co = new Conexao();
         UltimaSequencia us = new UltimaSequencia("cd_uf", "cad_uf");
-        c.insertSQL("insert into cad_uf(cd_uf,nm_uf,sg_uf,dt_transacao) values(" + us.ult + ",'MARINGA','PR','09/05/2013')");
-        c.executeSQL("select * from cad_uf");
+        co.insertSQL("insert into cad_uf(cd_uf,nm_uf,sg_uf,dt_transacao) values(" + us.ult + ",'MARINGA','PR','09/05/2013')");
+        co.executeSQL("select * from cad_uf");
 
-        while (c.resultset.next()) {
+        while (co.resultset.next()) {
 
-            System.out.println(c.resultset.getString(2));
+            System.out.println(co.resultset.getString(2));
 
         }
-
-
 
     }
 }
