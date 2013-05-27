@@ -47,9 +47,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuInutilizcoes = new javax.swing.JMenu();
         jMenuEmitente = new javax.swing.JMenu();
         jMenuCadastro = new javax.swing.JMenu();
+        jMenuLocalidades2 = new javax.swing.JMenu();
+        jMenuUf2 = new javax.swing.JMenuItem();
+        jMenuItemCidade2 = new javax.swing.JMenuItem();
+        jMenuLocalidades1 = new javax.swing.JMenu();
+        jMenuUf1 = new javax.swing.JMenuItem();
+        jMenuItemCidade1 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuLocalidades = new javax.swing.JMenu();
         jMenuUf = new javax.swing.JMenuItem();
         jMenuItemCidade = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuLocalidades3 = new javax.swing.JMenu();
+        jMenuUf3 = new javax.swing.JMenuItem();
+        jMenuUf4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenuSistema = new javax.swing.JMenu();
         jMenuItemParametros = new javax.swing.JMenuItem();
         jMenuItemCertificados = new javax.swing.JMenuItem();
@@ -182,6 +195,53 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuCadastro.setMnemonic('C');
         jMenuCadastro.setText("Cadastros");
 
+        jMenuLocalidades2.setText("Emitente");
+
+        jMenuUf2.setMnemonic('L');
+        jMenuUf2.setText("Regime Tributario");
+        jMenuUf2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuUf2ActionPerformed(evt);
+            }
+        });
+        jMenuLocalidades2.add(jMenuUf2);
+
+        jMenuItemCidade2.setMnemonic('C');
+        jMenuItemCidade2.setText("Emitente");
+        jMenuItemCidade2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCidade2ActionPerformed(evt);
+            }
+        });
+        jMenuLocalidades2.add(jMenuItemCidade2);
+
+        jMenuCadastro.add(jMenuLocalidades2);
+
+        jMenuLocalidades1.setText("Transporte");
+
+        jMenuUf1.setMnemonic('L');
+        jMenuUf1.setText("Modalidade de Transporte");
+        jMenuUf1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuUf1ActionPerformed(evt);
+            }
+        });
+        jMenuLocalidades1.add(jMenuUf1);
+
+        jMenuItemCidade1.setMnemonic('C');
+        jMenuItemCidade1.setText("Transportadora");
+        jMenuItemCidade1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCidade1ActionPerformed(evt);
+            }
+        });
+        jMenuLocalidades1.add(jMenuItemCidade1);
+
+        jMenuCadastro.add(jMenuLocalidades1);
+
+        jMenuItem4.setText("Cliente");
+        jMenuCadastro.add(jMenuItem4);
+
         jMenuLocalidades.setText("Localidades");
 
         jMenuUf.setMnemonic('L');
@@ -202,7 +262,53 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenuLocalidades.add(jMenuItemCidade);
 
+        jMenuItem1.setText("País");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenuLocalidades.add(jMenuItem1);
+
         jMenuCadastro.add(jMenuLocalidades);
+
+        jMenuItem3.setText("Usúario");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenuCadastro.add(jMenuItem3);
+
+        jMenuLocalidades3.setText("Nota Fiscal");
+
+        jMenuUf3.setMnemonic('L');
+        jMenuUf3.setText("Operação");
+        jMenuUf3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuUf3ActionPerformed(evt);
+            }
+        });
+        jMenuLocalidades3.add(jMenuUf3);
+
+        jMenuUf4.setMnemonic('L');
+        jMenuUf4.setText("Nota Fiscal");
+        jMenuUf4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuUf4ActionPerformed(evt);
+            }
+        });
+        jMenuLocalidades3.add(jMenuUf4);
+
+        jMenuCadastro.add(jMenuLocalidades3);
+
+        jMenuItem5.setText("Produto");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenuCadastro.add(jMenuItem5);
 
         jMenuBar.add(jMenuCadastro);
 
@@ -211,10 +317,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jMenuItemParametros.setMnemonic('P');
         jMenuItemParametros.setText("Parâmetros");
+        jMenuItemParametros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemParametrosActionPerformed(evt);
+            }
+        });
         jMenuSistema.add(jMenuItemParametros);
 
         jMenuItemCertificados.setMnemonic('C');
         jMenuItemCertificados.setText("Certificados");
+        jMenuItemCertificados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCertificadosActionPerformed(evt);
+            }
+        });
         jMenuSistema.add(jMenuItemCertificados);
 
         jMenuBar.add(jMenuSistema);
@@ -259,7 +375,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -284,6 +400,50 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void jMenuItemCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCidadeActionPerformed
        new CadCidade().setVisible(true);
     }//GEN-LAST:event_jMenuItemCidadeActionPerformed
+
+    private void jMenuUf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuUf1ActionPerformed
+        new CadModalidadeTransporte().setVisible(true);
+    }//GEN-LAST:event_jMenuUf1ActionPerformed
+
+    private void jMenuItemCidade1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCidade1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItemCidade1ActionPerformed
+
+    private void jMenuUf2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuUf2ActionPerformed
+       new CadRegimeTributario().setVisible(true);
+    }//GEN-LAST:event_jMenuUf2ActionPerformed
+
+    private void jMenuItemCidade2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCidade2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItemCidade2ActionPerformed
+
+    private void jMenuUf3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuUf3ActionPerformed
+       new CadOperacao().setVisible(true);
+    }//GEN-LAST:event_jMenuUf3ActionPerformed
+
+    private void jMenuUf4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuUf4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuUf4ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+      new CadPais().setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+       new CadProdutoServico().setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        new CadUsuario().setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItemParametrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemParametrosActionPerformed
+        new CadParametros().setVisible(true);
+    }//GEN-LAST:event_jMenuItemParametrosActionPerformed
+
+    private void jMenuItemCertificadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCertificadosActionPerformed
+       new CadCertificados().setVisible(true);
+    }//GEN-LAST:event_jMenuItemCertificadosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -344,16 +504,29 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuEmitente;
     private javax.swing.JMenuItem jMenuGerenciarNotas;
     private javax.swing.JMenu jMenuInutilizcoes;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItemCertificados;
     private javax.swing.JMenuItem jMenuItemCidade;
+    private javax.swing.JMenuItem jMenuItemCidade1;
+    private javax.swing.JMenuItem jMenuItemCidade2;
     private javax.swing.JMenuItem jMenuItemParametros;
     private javax.swing.JMenu jMenuLocalidades;
+    private javax.swing.JMenu jMenuLocalidades1;
+    private javax.swing.JMenu jMenuLocalidades2;
+    private javax.swing.JMenu jMenuLocalidades3;
     private javax.swing.JMenuItem jMenuLogoff;
     private javax.swing.JMenuItem jMenuNota;
     private javax.swing.JMenu jMenuNotaFiscal;
     private javax.swing.JMenu jMenuSair;
     private javax.swing.JMenu jMenuSistema;
     private javax.swing.JMenuItem jMenuUf;
+    private javax.swing.JMenuItem jMenuUf1;
+    private javax.swing.JMenuItem jMenuUf2;
+    private javax.swing.JMenuItem jMenuUf3;
+    private javax.swing.JMenuItem jMenuUf4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
