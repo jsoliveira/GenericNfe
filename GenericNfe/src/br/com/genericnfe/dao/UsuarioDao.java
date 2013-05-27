@@ -84,7 +84,7 @@ public class UsuarioDao {
 
     public Boolean validaLogin(Usuario u) {
         
-      c.executeSQL("select ds_usuario,pw_senha from cad_usuario where ds_usuario='"+u.getDs_usuario()+"' and pw_senha='"+u.getPw_usuario()+"'");
+      c.executeSQL("select nm_login,pw_senha from cad_usuario where nm_login='"+u.getDs_usuario()+"' and pw_senha='"+u.getPw_usuario()+"'");
         try {
             return c.resultset.first();
         } catch (SQLException ex) {
