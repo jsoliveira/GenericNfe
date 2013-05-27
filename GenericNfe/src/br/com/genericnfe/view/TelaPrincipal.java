@@ -66,6 +66,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuSistema = new javax.swing.JMenu();
         jMenuItemParametros = new javax.swing.JMenuItem();
         jMenuItemCertificados = new javax.swing.JMenuItem();
+        jMenuItemParametros1 = new javax.swing.JMenuItem();
         jMenuSair = new javax.swing.JMenu();
         jMenuClose = new javax.swing.JMenuItem();
         jMenuLogoff = new javax.swing.JMenuItem();
@@ -240,6 +241,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuCadastro.add(jMenuLocalidades1);
 
         jMenuItem4.setText("Cliente");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenuCadastro.add(jMenuItem4);
 
         jMenuLocalidades.setText("Localidades");
@@ -333,6 +339,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenuSistema.add(jMenuItemCertificados);
 
+        jMenuItemParametros1.setMnemonic('P');
+        jMenuItemParametros1.setText("Serviços Web");
+        jMenuItemParametros1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemParametros1ActionPerformed(evt);
+            }
+        });
+        jMenuSistema.add(jMenuItemParametros1);
+
         jMenuBar.add(jMenuSistema);
 
         jMenuSair.setMnemonic('r');
@@ -406,7 +421,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuUf1ActionPerformed
 
     private void jMenuItemCidade1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCidade1ActionPerformed
-        // TODO add your handling code here:
+       new CadTransportadora().setVisible(true);
     }//GEN-LAST:event_jMenuItemCidade1ActionPerformed
 
     private void jMenuUf2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuUf2ActionPerformed
@@ -414,7 +429,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuUf2ActionPerformed
 
     private void jMenuItemCidade2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCidade2ActionPerformed
-        // TODO add your handling code here:
+        new CadEmitente().setVisible(true);
     }//GEN-LAST:event_jMenuItemCidade2ActionPerformed
 
     private void jMenuUf3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuUf3ActionPerformed
@@ -444,6 +459,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void jMenuItemCertificadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCertificadosActionPerformed
        new CadCertificados().setVisible(true);
     }//GEN-LAST:event_jMenuItemCertificadosActionPerformed
+
+    private void jMenuItemParametros1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemParametros1ActionPerformed
+        new CadServicosWeb().setVisible(true);
+    }//GEN-LAST:event_jMenuItemParametros1ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+       new CadCliente().setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -513,6 +536,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemCidade1;
     private javax.swing.JMenuItem jMenuItemCidade2;
     private javax.swing.JMenuItem jMenuItemParametros;
+    private javax.swing.JMenuItem jMenuItemParametros1;
     private javax.swing.JMenu jMenuLocalidades;
     private javax.swing.JMenu jMenuLocalidades1;
     private javax.swing.JMenu jMenuLocalidades2;
