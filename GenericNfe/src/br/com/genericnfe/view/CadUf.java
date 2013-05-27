@@ -1,6 +1,8 @@
 package br.com.genericnfe.view;
 
+import br.com.genericnfe.dao.PaisDao;
 import br.com.genericnfe.dao.UfDao;
+import br.com.genericnfe.model.Pais;
 import br.com.genericnfe.model.Uf;
 import br.com.genericnfe.tools.*;
 import java.text.ParseException;
@@ -17,7 +19,7 @@ import javax.swing.JToggleButton;
  * @author jsoliveira
  */
 public class CadUf extends javax.swing.JFrame {
-    
+
     private ValidaEstadoBotoes validaEstadoBotoes = new ValidaEstadoBotoes();
     private ValidaEstadoJTabbed validaEstadoJTabbed = new ValidaEstadoJTabbed();
     private LookAndFeelWindows lookAndFeel = new LookAndFeelWindows();
@@ -29,16 +31,17 @@ public class CadUf extends javax.swing.JFrame {
     private Estado e = new Estado();
     private UfDao ufDao = new UfDao();
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    
+
     public CadUf() {
         initComponents();
-        
+
         lookAndFeel.Windows(this);
         validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
         setEstado(e.padrao);
-        generico.PreencherJtableTipos(jTablePesquisa, new int[]{80, 180, 80, 100});
+        generico.PreencherJtableTipos(jTablePesquisa, new int[]{80, 180, 100, 80, 100});
         uc.UpperContainer(jPnCadastro);
         uc.UpperContainer(jPnConsulta);
+        preeencherPaises();
     }
 
     /**
@@ -67,6 +70,8 @@ public class CadUf extends javax.swing.JFrame {
         jBtCancelar = new javax.swing.JButton();
         jTfDtTransacao = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        jCbPais = new javax.swing.JComboBox();
+        jLabel8 = new javax.swing.JLabel();
         jPnConsulta = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablePesquisa = new javax.swing.JTable();
@@ -83,6 +88,7 @@ public class CadUf extends javax.swing.JFrame {
         jBtAlterarSelecionado = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Cadastro de Unidade Federativa");
         setResizable(false);
 
         jTabbed.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -155,6 +161,8 @@ public class CadUf extends javax.swing.JFrame {
 
         jLabel7.setText("Data da Transação");
 
+        jLabel8.setText("País");
+
         javax.swing.GroupLayout jPnCadastroLayout = new javax.swing.GroupLayout(jPnCadastro);
         jPnCadastro.setLayout(jPnCadastroLayout);
         jPnCadastroLayout.setHorizontalGroup(
@@ -171,7 +179,9 @@ public class CadUf extends javax.swing.JFrame {
                     .addComponent(jTfSigla, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jTfDtTransacao, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jCbPais, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
                 .addContainerGap())
         );
         jPnCadastroLayout.setVerticalGroup(
@@ -181,11 +191,15 @@ public class CadUf extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTfCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jCbPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTfSigla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -193,7 +207,7 @@ public class CadUf extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addGap(8, 8, 8)
                 .addComponent(jTfDtTransacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addGap(37, 37, 37)
                 .addComponent(jPnBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -202,17 +216,17 @@ public class CadUf extends javax.swing.JFrame {
 
         jTablePesquisa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Código", "Nome", "Sigla", "Data Transação"
+                "Código", "Paísl", "Nome", "Sigla", "Data Transação"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -228,7 +242,7 @@ public class CadUf extends javax.swing.JFrame {
 
         jLabel1.setText("Tipo da Pesquisa");
 
-        jCbTipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Geral", "Por Código", "Por Nome", "Por Sigla" }));
+        jCbTipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Geral", "Por País", "Por Código", "Por Nome", "Por Sigla" }));
 
         jBtPesquisar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jBtPesquisar.setText("Pesquisar");
@@ -247,7 +261,7 @@ public class CadUf extends javax.swing.JFrame {
         jRbAsc.setSelected(true);
         jRbAsc.setText("Acesdente");
 
-        jCbOrdernar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Código", "Nome", "Sigla", "Dt.Transação" }));
+        jCbOrdernar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Código", "País", "Nome", "Sigla", "Dt.Transação" }));
 
         jLabel3.setText("Ordenar");
 
@@ -318,7 +332,7 @@ public class CadUf extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtAlterarSelecionado)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jTabbed.addTab("Consulta", jPnConsulta);
@@ -339,20 +353,20 @@ public class CadUf extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtIncluirActionPerformed
-        
+
         setEstado(e.incluir);
         lc.LimparCampos(jPnCadastro);
         validaEstadoBotoes.ValidaCamposIncluir(jPnCadastro, jPnBotoes);
-        
+
     }//GEN-LAST:event_jBtIncluirActionPerformed
-    
+
     private void jBtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCancelarActionPerformed
         setEstado(e.padrao);
         validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
     }//GEN-LAST:event_jBtCancelarActionPerformed
-    
+
     private void jBtAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarActionPerformed
-        
+
         if (jTfCod.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Selecione uma Unidade Federativa para alterar");
             return;
@@ -360,18 +374,18 @@ public class CadUf extends javax.swing.JFrame {
         setEstado(e.alterar);
         validaEstadoBotoes.ValidaCamposIncluir(jPnCadastro, jPnBotoes);
     }//GEN-LAST:event_jBtAlterarActionPerformed
-    
+
     private void jBtGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtGravarActionPerformed
-        
-        
+
+
         if (valida()) {
-            
+
             if (getEstado() == e.incluir) {
-                
+
                 jTfCod.setText((valida()) ? Integer.toString(ufDao.salvar(setUf())) : "");
                 jTfDtTransacao.setText(sdf.format(new Date()));
                 JOptionPane.showMessageDialog(null, ufDao.getMsg());
-                
+
             }
             if (getEstado() == e.alterar) {
                 ufDao.alterar(setUf());
@@ -380,14 +394,14 @@ public class CadUf extends javax.swing.JFrame {
             validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
         }
     }//GEN-LAST:event_jBtGravarActionPerformed
-    
+
     private void jBtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirActionPerformed
         if (jTfCod.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Selecione uma Unidade Federativa para excluir");
             return;
         }
         int op = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o estado do '" + jTfSigla.getText() + "' ?", "Exclusão", JOptionPane.YES_NO_OPTION);
-        
+
         if (op == JOptionPane.YES_OPTION) {
             setEstado(e.padrao);
             ufDao.excluir(setUf());
@@ -395,74 +409,95 @@ public class CadUf extends javax.swing.JFrame {
             lc.LimparCampos(jPnCadastro);
         }
     }//GEN-LAST:event_jBtExcluirActionPerformed
-    
+
     private void jTabbedStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedStateChanged
         validaEstadoJTabbed.ValidaEstadoJTabbed(jTabbed, jBtIncluir);
         if (jPnConsulta.isShowing()) {
             generico.limparJtabe(jTablePesquisa);
         }
     }//GEN-LAST:event_jTabbedStateChanged
-    
+
     private void jBtPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisarActionPerformed
         ufDao.setOrderByOrd((jRbAsc.isSelected()) ? "ASC" : "DESC");
-        
+
         switch (jCbOrdernar.getSelectedIndex()) {
-            
+
             case 0:
                 ufDao.setOrderByCampoOrd("cd_uf");
                 break;
             case 1:
+                ufDao.setOrderByCampoOrd("nm_pais");
+                break;
+            case 2:
                 ufDao.setOrderByCampoOrd("nm_uf");
                 break;
-            case 2:
+            case 3:
                 ufDao.setOrderByCampoOrd("sg_uf");
                 break;
-            case 3:
+            case 4:
                 ufDao.setOrderByCampoOrd("dt_transacao");
                 break;
-            
+
         }
-        
+
+
+        String[] campos = new String[]{"cd_uf", "nm_pais", "nm_uf", "sg_uf", "dt_transacao"};
+
         switch (jCbTipoPesquisa.getSelectedIndex()) {
-            
+
             case 0:
-                generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_uf", "nm_uf", "sg_uf", "dt_transacao"}, ufDao.listarTodos());
+                generico.PreencherJtableGenerico(jTablePesquisa, campos, ufDao.listarTodos());
                 break;
-            
             case 1:
+                generico.PreencherJtableGenerico(jTablePesquisa, campos, ufDao.listarPais(jTfValor.getText()));
+                break;
+
+            case 2:
                 if (vn.validaInteiro(jTfValor)) {
-                    generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_uf", "nm_uf", "sg_uf", "dt_transacao"}, ufDao.listarCod(Integer.parseInt(jTfValor.getText())));
+                    generico.PreencherJtableGenerico(jTablePesquisa, campos, ufDao.listarCod(Integer.parseInt(jTfValor.getText())));
                 }
                 break;
-            
-            
-            case 2:
-                generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_uf", "nm_uf", "sg_uf", "dt_transacao"}, ufDao.listarNm(jTfValor.getText()));
-                break;
-            
-            
+
+
             case 3:
-                generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_uf", "nm_uf", "sg_uf", "dt_transacao"}, ufDao.listarSg(jTfValor.getText()));
+                generico.PreencherJtableGenerico(jTablePesquisa, campos, ufDao.listarNm(jTfValor.getText()));
+                break;
+
+
+            case 4:
+                generico.PreencherJtableGenerico(jTablePesquisa, campos, ufDao.listarSg(jTfValor.getText()));
                 break;
         }
-        
+
     }//GEN-LAST:event_jBtPesquisarActionPerformed
-    
+
     private void jTablePesquisaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePesquisaMouseClicked
-        
-        
+
+
         if (evt.getClickCount() == 2) {
-            
+
             jBtAlterarSelecionadoActionPerformed(null);
         }
-        
+
     }//GEN-LAST:event_jTablePesquisaMouseClicked
-    
+
     private void jBtAlterarSelecionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarSelecionadoActionPerformed
-        
+
+
+        if (jTablePesquisa.getSelectedRow() < 0) {
+
+            JOptionPane.showMessageDialog(null, "Selecione um registro para alterar");
+            return;
+
+        }
+
+
         int cod = Integer.parseInt(jTablePesquisa.getValueAt(jTablePesquisa.getSelectedRow(), 0).toString());
         getUf(ufDao.buscarCod(cod));
         jTabbed.setSelectedIndex(0);
+
+
+
     }//GEN-LAST:event_jBtAlterarSelecionadoActionPerformed
 
     /**
@@ -483,10 +518,10 @@ public class CadUf extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                    
-                    
-                    
-                    
+
+
+
+
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -504,7 +539,7 @@ public class CadUf extends javax.swing.JFrame {
          * Create and display the form
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            
+
             public void run() {
                 new CadUf().setVisible(true);
             }
@@ -520,6 +555,7 @@ public class CadUf extends javax.swing.JFrame {
     private javax.swing.JButton jBtIncluir;
     private javax.swing.JButton jBtPesquisar;
     private javax.swing.JComboBox jCbOrdernar;
+    private javax.swing.JComboBox jCbPais;
     private javax.swing.JComboBox jCbTipoPesquisa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -528,6 +564,7 @@ public class CadUf extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPnBotoes;
     private javax.swing.JPanel jPnCadastro;
     private javax.swing.JPanel jPnConsulta;
@@ -547,16 +584,17 @@ public class CadUf extends javax.swing.JFrame {
     public int getEstado() {
         return estado;
     }
-    
+
     public void setEstado(int estado) {
         this.estado = estado;
     }
-    
+
     private Uf setUf() {
-        
-        
-        
+
+
+
         int cod = (jTfCod.getText().isEmpty()) ? 0 : Integer.parseInt(jTfCod.getText());
+        Pais p = (Pais) jCbPais.getSelectedItem();
         String nome = jTfNome.getText();
         String sigla = jTfSigla.getText();
         Date date = null;
@@ -565,40 +603,51 @@ public class CadUf extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(CadUf.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Uf u = new Uf(cod, nome, sigla, date);
-        
+        Uf u = new Uf(cod, p, nome, sigla, date);
+
         return u;
-        
+
     }
-    
+
     public void getUf(Uf u) {
-        
-        
+
+
         jTfCod.setText(Integer.toString(u.getCd_uf()));
+        jCbPais.setSelectedItem(u.getP());
         jTfNome.setText(u.getNm_uf());
         jTfSigla.setText(u.getSg_uf());
         jTfDtTransacao.setText(sdf.format(u.getDt_transacao()));
-        
+
     }
-    
+
     public boolean valida() {
-        
+
         if (jTfNome.getText().isEmpty()) {
-            
+
             JOptionPane.showMessageDialog(null, "Informe o Nome da Unidade Federativa");
             return false;
         }
-        
+
         if (jTfSigla.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Informe a Sigla da Unidade Federativa");
             return false;
         }
-        
+
         if (jTfSigla.getText().length() != 2) {
             JOptionPane.showMessageDialog(null, "A Sigla do estado deve conter dois caracteres exemplo Paraná Sigla:'PR'");
             return false;
         }
-        
+
         return true;
+    }
+
+    private void preeencherPaises() {
+        ArrayList<Pais> pais = new PaisDao().Pais();
+        //System.out.println(uf.size());
+
+        for (Pais p : pais) {
+            jCbPais.addItem(p);
+        }
+
     }
 }
