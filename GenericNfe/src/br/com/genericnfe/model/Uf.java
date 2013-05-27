@@ -9,6 +9,7 @@ import java.util.Date;
 public class Uf {
 
     private int cd_uf;
+    private Pais p;
     private String nm_uf;
     private String sg_uf;
     private Date dt_transacao;
@@ -16,8 +17,9 @@ public class Uf {
     public Uf() {
     }
 
-    public Uf(int cd_uf, String nm_uf, String sg_uf, Date dt_transacao) {
+    public Uf(int cd_uf, Pais p, String nm_uf, String sg_uf, Date dt_transacao) {
         this.cd_uf = cd_uf;
+        this.p = p;
         this.nm_uf = nm_uf;
         this.sg_uf = sg_uf;
         this.dt_transacao = dt_transacao;
@@ -31,6 +33,15 @@ public class Uf {
         this.cd_uf = cd_uf;
     }
 
+    public Pais getP() {
+        return p;
+    }
+
+    public void setP(Pais p) {
+        this.p = p;
+    }
+   
+    
     public String getNm_uf() {
         return nm_uf;
     }
