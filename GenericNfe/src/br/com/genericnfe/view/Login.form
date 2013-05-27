@@ -97,7 +97,7 @@
                   <Component id="jBtSair" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                   <Component id="jBtLimpar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="12" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -159,6 +159,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTfUsuario">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="admin"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jBtLimpar">
       <Properties>
@@ -191,6 +194,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JPasswordField" name="jTfSenha">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="admin"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jBtEntrar">
       <Properties>

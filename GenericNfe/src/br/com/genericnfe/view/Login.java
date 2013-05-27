@@ -69,6 +69,8 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("Base");
 
+        jTfUsuario.setText("admin");
+
         jBtLimpar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jBtLimpar.setMnemonic('L');
         jBtLimpar.setText("Limpar");
@@ -88,6 +90,8 @@ public class Login extends javax.swing.JFrame {
                 jBtSairActionPerformed(evt);
             }
         });
+
+        jTfSenha.setText("admin");
 
         jBtEntrar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jBtEntrar.setMnemonic('E');
@@ -156,7 +160,7 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jBtEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtSair, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
