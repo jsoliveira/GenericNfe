@@ -10,7 +10,7 @@ import javax.swing.*;
 public class ConexaoOracle {
 
     final private String driver = "oracle.jdbc.driver.OracleDriver";
-    final private String url = "jdbc:oracle:thin:@localhost:1521:XE";
+    final private String url = "jdbc:oracle:thin:@192.168.69.51:1521:XE";
     final private String usuario = "desenvnfe";
     final private String senha = "desenvnfe";
     final private String usuarioprod = "prodnfe";

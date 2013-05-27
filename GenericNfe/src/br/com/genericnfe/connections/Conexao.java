@@ -127,6 +127,8 @@ public class Conexao {
         }
     }
 
+    
+    
     public static void main(String[] args) throws SQLException {
 
 
@@ -144,4 +146,17 @@ public class Conexao {
         }
 
     }
+
+    public static Connection getC() {
+        return c;
+    }
+
+    public static void setC(Connection c) {
+        Conexao.c = c;
+    }
+    
+    
+    
+    
+    
 }

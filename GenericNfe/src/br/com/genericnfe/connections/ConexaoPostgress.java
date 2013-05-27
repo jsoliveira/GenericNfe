@@ -11,8 +11,8 @@ public class ConexaoPostgress {
     public static ResultSetMetaData metaData;
     public static final String usuariodesenv = "desenvnfe";
     public static final String senhadesenv = "desenvnfe";
-    public static final String urlprod = "jdbc:postgresql://localhost:5432/prodnfe";
-    public static final String urldesnv = "jdbc:postgresql://localhost:5432/desenvnfe";
+    public static final String urlprod = "jdbc:postgresql://192.168.69.51:5432/prodnfe";
+    public static final String urldesnv = "jdbc:postgresql://192.168.69.51:5432/desenvnfe";
     public static final String usuarioprod = "prodnfe";
     public static final String senhaprod = "prodnfe";
 
