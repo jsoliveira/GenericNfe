@@ -4,17 +4,43 @@
  */
 package br.com.genericnfe.view;
 
+import br.com.genericnfe.dao.PaisDao;
+import br.com.genericnfe.dao.RegimeTributarioDao;
+import br.com.genericnfe.model.RegimeTributario;
+import br.com.genericnfe.tools.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Usuario
  */
 public class CadRegimeTributario extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CadRegimeTributario
-     */
+    private ValidaEstadoBotoes validaEstadoBotoes = new ValidaEstadoBotoes();
+    private ValidaEstadoJTabbed validaEstadoJTabbed = new ValidaEstadoJTabbed();
+    private LookAndFeelWindows lookAndFeel = new LookAndFeelWindows();
+    private PreencherJtableGenerico generico = new PreencherJtableGenerico();
+    private ValidaNumerico vn = new ValidaNumerico();
+    private LimparCampos lc = new LimparCampos();
+    private UpperCase uc = new UpperCase();
+    private int estado;
+    private Estado e = new Estado();
+    private RegimeTributarioDao rDao = new RegimeTributarioDao();
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
     public CadRegimeTributario() {
         initComponents();
+
+
+        lookAndFeel.Windows(this);
+        validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
+        setEstado(e.padrao);
+        generico.PreencherJtableTipos(jTablePesquisa, new int[]{80, 250, 80});
+        uc.UpperContainer(jPnCadastro);
+        uc.UpperContainer(jPnConsulta);
     }
 
     /**
@@ -26,12 +52,13 @@ public class CadRegimeTributario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jTabbed = new javax.swing.JTabbedPane();
         jPnCadastro = new javax.swing.JPanel();
         jTfCod = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTfNome = new javax.swing.JTextField();
+        jTfNomeRegimeTributario = new javax.swing.JTextField();
         jPnBotoes = new javax.swing.JPanel();
         jBtIncluir = new javax.swing.JButton();
         jBtAlterar = new javax.swing.JButton();
@@ -136,7 +163,7 @@ public class CadRegimeTributario extends javax.swing.JFrame {
                 .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
-                    .addComponent(jTfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTfNomeRegimeTributario, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTfCod, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jTfDtTransacao, javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,7 +180,7 @@ public class CadRegimeTributario extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTfNomeRegimeTributario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addGap(8, 8, 8)
@@ -202,12 +229,14 @@ public class CadRegimeTributario extends javax.swing.JFrame {
 
         jLabel2.setText("Valor");
 
+        buttonGroup1.add(jRBDesc);
         jRBDesc.setText("Descrecente");
 
+        buttonGroup1.add(jRbAsc);
         jRbAsc.setSelected(true);
         jRbAsc.setText("Acesdente");
 
-        jCbOrdernar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Código", "Nome", "Sigla", "Dt.Transação" }));
+        jCbOrdernar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Código", "Regime Trib.", "Dt.Transação" }));
 
         jLabel3.setText("Ordenar");
 
@@ -232,17 +261,17 @@ public class CadRegimeTributario extends javax.swing.JFrame {
                         .addGroup(jPnConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jCbTipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPnConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jTfValor, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addComponent(jTfValor, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPnConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPnConsultaLayout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jCbOrdernar, 0, 1, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jCbOrdernar, 0, 92, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPnConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPnConsultaLayout.createSequentialGroup()
                                 .addComponent(jRbAsc)
@@ -300,60 +329,60 @@ public class CadRegimeTributario extends javax.swing.JFrame {
 
     private void jBtIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtIncluirActionPerformed
 
-//        setEstado(e.incluir);
-//        lc.LimparCampos(jPnCadastro);
-//        validaEstadoBotoes.ValidaCamposIncluir(jPnCadastro, jPnBotoes);
+        setEstado(e.incluir);
+        lc.LimparCampos(jPnCadastro);
+        validaEstadoBotoes.ValidaCamposIncluir(jPnCadastro, jPnBotoes);
 
     }//GEN-LAST:event_jBtIncluirActionPerformed
 
     private void jBtAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarActionPerformed
 
-//        if (jTfCod.getText().isEmpty()) {
-//            JOptionPane.showMessageDialog(null, "Selecione uma Unidade Federativa para alterar");
-//            return;
-//        }
-//        setEstado(e.alterar);
-//        validaEstadoBotoes.ValidaCamposIncluir(jPnCadastro, jPnBotoes);
+        if (jTfCod.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Selecione uma Unidade Federativa para alterar");
+            return;
+        }
+        setEstado(e.alterar);
+        validaEstadoBotoes.ValidaCamposIncluir(jPnCadastro, jPnBotoes);
     }//GEN-LAST:event_jBtAlterarActionPerformed
 
     private void jBtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirActionPerformed
-//        if (jTfCod.getText().isEmpty()) {
-//            JOptionPane.showMessageDialog(null, "Selecione uma Unidade Federativa para excluir");
-//            return;
-//        }
-//        int op = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o estado do '" + jTfSigla.getText() + "' ?", "Exclusão", JOptionPane.YES_NO_OPTION);
-//
-//        if (op == JOptionPane.YES_OPTION) {
-//            setEstado(e.padrao);
-//            ufDao.excluir(setUf());
-//            JOptionPane.showMessageDialog(null, ufDao.getMsg());
-//            lc.LimparCampos(jPnCadastro);
-//        }
+        if (jTfCod.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Selecione um Regime Tributario para excluir");
+            return;
+        }
+        int op = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o Regime Tributario do '" + jTfNomeRegimeTributario.getText() + "' ?", "Exclusão", JOptionPane.YES_NO_OPTION);
+
+        if (op == JOptionPane.YES_OPTION) {
+            setEstado(e.padrao);
+            rDao.excluir(setRegime());
+            JOptionPane.showMessageDialog(null, rDao.getMsg());
+            lc.LimparCampos(jPnCadastro);
+        }
     }//GEN-LAST:event_jBtExcluirActionPerformed
 
     private void jBtGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtGravarActionPerformed
 
-//
-//        if (valida()) {
-//
-//            if (getEstado() == e.incluir) {
-//
-//                jTfCod.setText((valida()) ? Integer.toString(ufDao.salvar(setUf())) : "");
-//                jTfDtTransacao.setText(sdf.format(new Date()));
-//                JOptionPane.showMessageDialog(null, ufDao.getMsg());
-//
-//            }
-//            if (getEstado() == e.alterar) {
-//                ufDao.alterar(setUf());
-//                JOptionPane.showMessageDialog(null, ufDao.getMsg());
-//            }
-//            validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
-//        }
+
+        if (valida()) {
+
+            if (getEstado() == e.incluir) {
+
+                jTfCod.setText((valida()) ? Integer.toString(rDao.salvar(setRegime())) : "");
+                jTfDtTransacao.setText(sdf.format(new Date()));
+                JOptionPane.showMessageDialog(null, rDao.getMsg());
+
+            }
+            if (getEstado() == e.alterar) {
+                rDao.alterar(setRegime());
+                JOptionPane.showMessageDialog(null, rDao.getMsg());
+            }
+            validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
+        }
     }//GEN-LAST:event_jBtGravarActionPerformed
 
     private void jBtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCancelarActionPerformed
-//        setEstado(e.padrao);
-//        validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
+        setEstado(e.padrao);
+        validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
     }//GEN-LAST:event_jBtCancelarActionPerformed
 
     private void jTablePesquisaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePesquisaMouseClicked
@@ -367,62 +396,55 @@ public class CadRegimeTributario extends javax.swing.JFrame {
     }//GEN-LAST:event_jTablePesquisaMouseClicked
 
     private void jBtPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisarActionPerformed
-//        ufDao.setOrderByOrd((jRbAsc.isSelected()) ? "ASC" : "DESC");
-//
-//        switch (jCbOrdernar.getSelectedIndex()) {
-//
-//            case 0:
-//                ufDao.setOrderByCampoOrd("cd_uf");
-//                break;
-//            case 1:
-//                ufDao.setOrderByCampoOrd("nm_uf");
-//                break;
-//            case 2:
-//                ufDao.setOrderByCampoOrd("sg_uf");
-//                break;
-//            case 3:
-//                ufDao.setOrderByCampoOrd("dt_transacao");
-//                break;
-//
-//        }
-//
-//        switch (jCbTipoPesquisa.getSelectedIndex()) {
-//
-//            case 0:
-//                generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_uf", "nm_uf", "sg_uf", "dt_transacao"}, ufDao.listarTodos());
-//                break;
-//
-//            case 1:
-//                if (vn.validaInteiro(jTfValor)) {
-//                    generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_uf", "nm_uf", "sg_uf", "dt_transacao"}, ufDao.listarCod(Integer.parseInt(jTfValor.getText())));
-//                }
-//                break;
-//
-//
-//            case 2:
-//                generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_uf", "nm_uf", "sg_uf", "dt_transacao"}, ufDao.listarNm(jTfValor.getText()));
-//                break;
-//
-//
-//            case 3:
-//                generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_uf", "nm_uf", "sg_uf", "dt_transacao"}, ufDao.listarSg(jTfValor.getText()));
-//                break;
-//        }
+        rDao.setOrderByOrd((jRbAsc.isSelected()) ? "ASC" : "DESC");
+
+        switch (jCbOrdernar.getSelectedIndex()) {
+
+            case 0:
+                rDao.setOrderByCampoOrd("cd_regime");
+                break;
+            case 1:
+                rDao.setOrderByCampoOrd("ds_regime");
+                break;
+            case 2:
+                rDao.setOrderByCampoOrd("dt_transacao");
+                break;
+
+
+        }
+
+        switch (jCbTipoPesquisa.getSelectedIndex()) {
+
+            case 0:
+                generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_regime", "ds_regime", "dt_transacao"}, rDao.listarTodos());
+                break;
+
+            case 1:
+                if (vn.validaInteiro(jTfValor)) {
+                    generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_regime", "ds_regime", "dt_transacao"}, rDao.listarCod(Integer.parseInt(jTfValor.getText())));
+                }
+                break;
+
+
+            case 2:
+                generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_regime", "ds_regime", "dt_transacao"}, rDao.listarDescricao(jTfValor.getText()));
+                break;
+        }
 
     }//GEN-LAST:event_jBtPesquisarActionPerformed
 
     private void jBtAlterarSelecionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarSelecionadoActionPerformed
 
-//        int cod = Integer.parseInt(jTablePesquisa.getValueAt(jTablePesquisa.getSelectedRow(), 0).toString());
-//        getUf(ufDao.buscarCod(cod));
-//        jTabbed.setSelectedIndex(0);
+        int cod = Integer.parseInt(jTablePesquisa.getValueAt(jTablePesquisa.getSelectedRow(), 0).toString());
+        getRegime(rDao.buscarCod(cod));
+        jTabbed.setSelectedIndex(0);
     }//GEN-LAST:event_jBtAlterarSelecionadoActionPerformed
 
     private void jTabbedStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedStateChanged
-//        validaEstadoJTabbed.ValidaEstadoJTabbed(jTabbed, jBtIncluir);
-//        if (jPnConsulta.isShowing()) {
-//            generico.limparJtabe(jTablePesquisa);
-//        }
+        validaEstadoJTabbed.ValidaEstadoJTabbed(jTabbed, jBtIncluir);
+        if (jPnConsulta.isShowing()) {
+            generico.limparJtabe(jTablePesquisa);
+        }
     }//GEN-LAST:event_jTabbedStateChanged
 
     /**
@@ -467,6 +489,7 @@ public class CadRegimeTributario extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jBtAlterar;
     private javax.swing.JButton jBtAlterarSelecionado;
     private javax.swing.JButton jBtCancelar;
@@ -493,7 +516,47 @@ public class CadRegimeTributario extends javax.swing.JFrame {
     private javax.swing.JTable jTablePesquisa;
     private javax.swing.JTextField jTfCod;
     private javax.swing.JTextField jTfDtTransacao;
-    private javax.swing.JTextField jTfNome;
+    private javax.swing.JTextField jTfNomeRegimeTributario;
     private javax.swing.JTextField jTfValor;
     // End of variables declaration//GEN-END:variables
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    private RegimeTributario setRegime() {
+
+        int cod = (jTfCod.getText().isEmpty()) ? 0 : Integer.parseInt(jTfCod.getText());
+        String nome = jTfNomeRegimeTributario.getText();
+        Date date = null;
+
+        try {
+            date = (jTfDtTransacao.getText().isEmpty()) ? new Date() : sdf.parse(jTfDtTransacao.getText());
+        } catch (ParseException ex) {
+        }
+
+        RegimeTributario rt = new RegimeTributario(cod, nome, date);
+        return rt;
+    }
+
+    public void getRegime(RegimeTributario rt) {
+        jTfCod.setText(Integer.toString(rt.getCd_regime()));
+        jTfNomeRegimeTributario.setText(rt.getDs_regime());
+        jTfDtTransacao.setText(sdf.format(rt.getDt_transacao()));
+    }
+
+    public boolean valida() {
+
+        if (jTfNomeRegimeTributario.getText().isEmpty()) {
+
+            JOptionPane.showMessageDialog(null, "Informe o Nome o Regime Tributario");
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
 
-    UsuarioDao uDao;
+    UsuarioDao uDao = new UsuarioDao();
     LookAndFeelWindows lafw = new LookAndFeelWindows();
 
     public Login() {
@@ -254,7 +254,7 @@ public class Login extends javax.swing.JFrame {
 
     private Usuario getUsuario() {
 
-        return new Usuario(0, null, jTfUsuario.getText().toUpperCase(), jTfSenha.getText().toUpperCase(), null);
+        return new Usuario(0, null, jTfUsuario.getText(), new String(jTfSenha.getPassword()), null);
     }
 
     public boolean validaUser() {
@@ -266,13 +266,13 @@ public class Login extends javax.swing.JFrame {
             return false;
         }
 
-        if (jTfSenha.getText().isEmpty()) {
+        if (new String(jTfSenha.getPassword()).isEmpty()) {
             JOptionPane.showMessageDialog(null, "Informe a Senha");
             jTfSenha.grabFocus();
             return false;
         }
 
-        uDao = new UsuarioDao();
+       
         return uDao.validaLogin(getUsuario());
     }
 
@@ -284,6 +284,7 @@ public class Login extends javax.swing.JFrame {
         tp.jLabelBase.setText(jCBBase.getSelectedItem().toString());
         tp.jLabelDataLogin.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
         tp.jLabelHoraLogin.setText(new SimpleDateFormat("hh:mm").format(new Date()));
+        tp.setU(uDao.getUsuLogado());
         tp.setVisible(true);
         dispose();
 

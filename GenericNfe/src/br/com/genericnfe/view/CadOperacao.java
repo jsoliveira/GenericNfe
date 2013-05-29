@@ -4,17 +4,46 @@
  */
 package br.com.genericnfe.view;
 
+import br.com.genericnfe.dao.OperacaoDao;
+import br.com.genericnfe.model.Operacao;
+import br.com.genericnfe.tools.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Usuario
  */
 public class CadOperacao extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CadOperacao
-     */
+    private ValidaEstadoBotoes validaEstadoBotoes = new ValidaEstadoBotoes();
+    private ValidaEstadoJTabbed validaEstadoJTabbed = new ValidaEstadoJTabbed();
+    private LookAndFeelWindows lookAndFeel = new LookAndFeelWindows();
+    private PreencherJtableGenerico generico = new PreencherJtableGenerico();
+    private ValidaNumerico vn = new ValidaNumerico();
+    private LimparCampos lc = new LimparCampos();
+    private UpperCase uc = new UpperCase();
+    private int estado;
+    private Estado e = new Estado();
+    private OperacaoDao oDao = new OperacaoDao();
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
     public CadOperacao() {
         initComponents();
+
+
+        lookAndFeel.Windows(this);
+        validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
+        setEstado(e.padrao);
+        generico.PreencherJtableTipos(jTablePesquisa, new int[]{80, 180, 100, 80, 100});
+        uc.UpperContainer(jPnCadastro);
+        uc.UpperContainer(jPnConsulta);
+
+
     }
 
     /**
@@ -306,59 +335,59 @@ public class CadOperacao extends javax.swing.JFrame {
 
     private void jBtIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtIncluirActionPerformed
 
-//        setEstado(e.incluir);
-//        lc.LimparCampos(jPnCadastro);
-//        validaEstadoBotoes.ValidaCamposIncluir(jPnCadastro, jPnBotoes);
+        setEstado(e.incluir);
+        lc.LimparCampos(jPnCadastro);
+        validaEstadoBotoes.ValidaCamposIncluir(jPnCadastro, jPnBotoes);
    }//GEN-LAST:event_jBtIncluirActionPerformed
 
     private void jBtAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarActionPerformed
 
-//        if (jTfCod.getText().isEmpty()) {
-//            JOptionPane.showMessageDialog(null, "Selecione uma Unidade Federativa para alterar");
-//            return;
-//        }
-//        setEstado(e.alterar);
-//        validaEstadoBotoes.ValidaCamposIncluir(jPnCadastro, jPnBotoes);
+        if (jTfCod.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Selecione uma Operacao para Alterar!");
+            return;
+        }
+        setEstado(e.alterar);
+        validaEstadoBotoes.ValidaCamposIncluir(jPnCadastro, jPnBotoes);
    }//GEN-LAST:event_jBtAlterarActionPerformed
 
     private void jBtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirActionPerformed
-//        if (jTfCod.getText().isEmpty()) {
-//            JOptionPane.showMessageDialog(null, "Selecione uma Unidade Federativa para excluir");
-//            return;
-//        }
-//        int op = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o estado do '" + jTfSigla.getText() + "' ?", "Exclusão", JOptionPane.YES_NO_OPTION);
-//
-//        if (op == JOptionPane.YES_OPTION) {
-//            setEstado(e.padrao);
-//            ufDao.excluir(setUf());
-//            JOptionPane.showMessageDialog(null, ufDao.getMsg());
-//            lc.LimparCampos(jPnCadastro);
-//        }
+        if (jTfCod.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Selecione uma Operacao para excluir");
+            return;
+        }
+        int op = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o estado do '" + jTfNome.getText() + "' ?", "Exclusão", JOptionPane.YES_NO_OPTION);
+
+        if (op == JOptionPane.YES_OPTION) {
+            setEstado(e.padrao);
+            oDao.excluir(setOperacao());
+            JOptionPane.showMessageDialog(null, oDao.getMsg());
+            lc.LimparCampos(jPnCadastro);
+        }
     }//GEN-LAST:event_jBtExcluirActionPerformed
 
     private void jBtGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtGravarActionPerformed
 
-//
-//        if (valida()) {
-//
-//            if (getEstado() == e.incluir) {
-//
-//                jTfCod.setText((valida()) ? Integer.toString(ufDao.salvar(setUf())) : "");
-//                jTfDtTransacao.setText(sdf.format(new Date()));
-//                JOptionPane.showMessageDialog(null, ufDao.getMsg());
-//
-//            }
-//            if (getEstado() == e.alterar) {
-//                ufDao.alterar(setUf());
-//                JOptionPane.showMessageDialog(null, ufDao.getMsg());
-//            }
-//            validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
-//        }
+
+        if (valida()) {
+
+            if (getEstado() == e.incluir) {
+
+                jTfCod.setText((valida()) ? Integer.toString(oDao.salvar(setOperacao())) : "");
+                jTfDtTransacao.setText(sdf.format(new Date()));
+                JOptionPane.showMessageDialog(null, oDao.getMsg());
+
+            }
+            if (getEstado() == e.alterar) {
+                oDao.alterar(setOperacao());
+                JOptionPane.showMessageDialog(null, oDao.getMsg());
+            }
+            validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
+        }
    }//GEN-LAST:event_jBtGravarActionPerformed
 
     private void jBtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCancelarActionPerformed
-//        setEstado(e.padrao);
-//        validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
+        setEstado(e.padrao);
+        validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
     }//GEN-LAST:event_jBtCancelarActionPerformed
 
     private void jTablePesquisaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePesquisaMouseClicked
@@ -415,17 +444,16 @@ public class CadOperacao extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtPesquisarActionPerformed
 
     private void jBtAlterarSelecionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarSelecionadoActionPerformed
-
 //        int cod = Integer.parseInt(jTablePesquisa.getValueAt(jTablePesquisa.getSelectedRow(), 0).toString());
 //        getUf(ufDao.buscarCod(cod));
 //        jTabbed.setSelectedIndex(0);
    }//GEN-LAST:event_jBtAlterarSelecionadoActionPerformed
 
     private void jTabbedStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedStateChanged
-//        validaEstadoJTabbed.ValidaEstadoJTabbed(jTabbed, jBtIncluir);
-//        if (jPnConsulta.isShowing()) {
-//            generico.limparJtabe(jTablePesquisa);
-//        }
+        validaEstadoJTabbed.ValidaEstadoJTabbed(jTabbed, jBtIncluir);
+        if (jPnConsulta.isShowing()) {
+            generico.limparJtabe(jTablePesquisa);
+        }
     }//GEN-LAST:event_jTabbedStateChanged
 
     private void jTfNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTfNomeActionPerformed
@@ -503,4 +531,49 @@ public class CadOperacao extends javax.swing.JFrame {
     private javax.swing.JTextField jTfNome;
     private javax.swing.JTextField jTfValor;
     // End of variables declaration//GEN-END:variables
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    private Operacao setOperacao() {
+
+
+        int cod = (jTfCod.getText().isEmpty()) ? 0 : Integer.parseInt(jTfCod.getText());
+        String operacao = jTfNome.getText();
+        Date date = null;
+        try {
+            date = (jTfDtTransacao.getText().isEmpty()) ? new Date() : sdf.parse(jTfDtTransacao.getText());
+        } catch (ParseException ex) {
+            Logger.getLogger(CadUf.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        Operacao o = new Operacao(cod, operacao, date);
+
+        return o;
+
+    }
+
+    public void getOperacao(Operacao op) {
+
+        jTfCod.setText(Integer.toString(op.getCd_operacao()));
+        jTfNome.setText(op.getNm_operacao());
+        jTfDtTransacao.setText(String.valueOf(op.getDt_transacao()));
+    }
+
+    public boolean valida() {
+
+        if (jTfNome.getText().isEmpty()) {
+
+            JOptionPane.showMessageDialog(null, "Informe o Nome da Operacao!");
+            return false;
+        }
+
+
+        return true;
+    }
 }

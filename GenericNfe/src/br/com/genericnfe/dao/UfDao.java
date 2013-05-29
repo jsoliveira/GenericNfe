@@ -65,7 +65,7 @@ public class UfDao {
         update.append("SG_UF='").append(u.getSg_uf()).append("',");
         update.append("DT_TRANSACAO='").append(sdf.format(u.getDt_transacao())).append("'\n");
         update.append("WHERE CD_UF=").append(u.getCd_uf());
-        setMsg((c.executeUpdate(update.toString())) ? "Registro alterado com sucesso!" : "Não foi possivel executar o update");
+        setMsg((c.executeUpdate(update.toString())) ? "Registro alterado com sucesso!" : "Não foi possivel executar o update!");
 
     }
 

@@ -592,7 +592,6 @@ public class CadUf extends javax.swing.JFrame {
     private Uf setUf() {
 
 
-
         int cod = (jTfCod.getText().isEmpty()) ? 0 : Integer.parseInt(jTfCod.getText());
         Pais p = (Pais) jCbPais.getSelectedItem();
         String nome = jTfNome.getText();

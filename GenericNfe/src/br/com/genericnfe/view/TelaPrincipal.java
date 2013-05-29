@@ -1,6 +1,7 @@
 package br.com.genericnfe.view;
 
 import br.com.genericnfe.connections.Conexao;
+import br.com.genericnfe.model.Usuario;
 
 /**
  *
@@ -8,6 +9,9 @@ import br.com.genericnfe.connections.Conexao;
  */
 public class TelaPrincipal extends javax.swing.JFrame {
 
+    
+    
+    private Usuario u ;
     
 
     public TelaPrincipal() {
@@ -557,4 +561,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     // End of variables declaration//GEN-END:variables
+
+    public Usuario getU() {
+        return u;
+    }
+
+    public void setU(Usuario u) {
+        this.u = u;
+    }
+
+
 }

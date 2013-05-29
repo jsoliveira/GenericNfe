@@ -1,8 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.genericnfe.view;
+
+import br.com.genericnfe.dao.UsuarioDao;
+import br.com.genericnfe.model.Pais;
+import br.com.genericnfe.model.Usuario;
+import br.com.genericnfe.tools.*;
+import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.LookAndFeel;
 
 /**
  *
@@ -10,11 +17,26 @@ package br.com.genericnfe.view;
  */
 public class CadUsuario extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CadUsuario
-     */
+    private int estado;
+    private LimparCampos lc = new LimparCampos();
+    private ValidaEstadoBotoes validaEstadoBotoes = new ValidaEstadoBotoes();
+    private Estado e = new Estado();
+    private UsuarioDao uDao = new UsuarioDao();
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    private ValidaEstadoJTabbed validaEstadoJTabbed = new ValidaEstadoJTabbed();
+    private PreencherJtableGenerico generico = new PreencherJtableGenerico();
+    private ValidaNumerico vn = new ValidaNumerico();
+    private LookAndFeelWindows lookAndFeel = new LookAndFeelWindows();
+
     public CadUsuario() {
         initComponents();
+
+        lookAndFeel.Windows(this);
+
+        validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
+
+
+
     }
 
     /**
@@ -26,6 +48,7 @@ public class CadUsuario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup = new javax.swing.ButtonGroup();
         jTabbed = new javax.swing.JTabbedPane();
         jPnCadastro = new javax.swing.JPanel();
         jTfCod = new javax.swing.JTextField();
@@ -40,10 +63,21 @@ public class CadUsuario extends javax.swing.JFrame {
         jBtCancelar = new javax.swing.JButton();
         jTfDtTransacao = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jTfDtTransacao1 = new javax.swing.JTextField();
+        jSeparator2 = new javax.swing.JSeparator();
+        jSeparator3 = new javax.swing.JSeparator();
+        jLabel12 = new javax.swing.JLabel();
+        jTfComfSenha = new javax.swing.JPasswordField();
+        jTfSenha = new javax.swing.JPasswordField();
         jLabel9 = new javax.swing.JLabel();
-        jTfDtTransacao2 = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLComfirmaSenha = new javax.swing.JLabel();
+        jLSenha = new javax.swing.JLabel();
+        jLLogin = new javax.swing.JLabel();
+        jTfLogin = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
         jPnConsulta = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablePesquisa = new javax.swing.JTable();
@@ -72,7 +106,7 @@ public class CadUsuario extends javax.swing.JFrame {
 
         jLabel4.setText("Código");
 
-        jLabel5.setText("Nome");
+        jLabel5.setText("* Nome");
 
         jPnBotoes.setBackground(new java.awt.Color(102, 102, 102));
 
@@ -130,66 +164,155 @@ public class CadUsuario extends javax.swing.JFrame {
 
         jLabel7.setText("Data da Transação");
 
-        jLabel8.setText("Login");
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel12.setText("Dados para o Login");
 
-        jTfDtTransacao1.setEditable(false);
+        jTfComfSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTfComfSenhaKeyReleased(evt);
+            }
+        });
 
-        jLabel9.setText("Senha");
+        jTfSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTfSenhaKeyReleased(evt);
+            }
+        });
 
-        jTfDtTransacao2.setEditable(false);
+        jLabel9.setText("* Senha");
+
+        jLabel10.setText("* Comfirmação da Senha");
+
+        jLabel11.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel11.setText("A senha deve conter no minimo 4  caracteres e no  máximo 8");
+
+        jLComfirmaSenha.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+
+        jLSenha.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLSenha.setText("0");
+
+        jLLogin.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLLogin.setText("0");
+
+        jTfLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTfLoginKeyReleased(evt);
+            }
+        });
+
+        jLabel8.setText("* Login");
+
+        jLabel6.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel6.setText("O login deve conter no  minimo 4 caracteres e no  máximo 10");
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel13.setText("Campos marcados com * são obrigatórios");
 
         javax.swing.GroupLayout jPnCadastroLayout = new javax.swing.GroupLayout(jPnCadastro);
         jPnCadastro.setLayout(jPnCadastroLayout);
         jPnCadastroLayout.setHorizontalGroup(
             jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPnBotoes, javax.swing.GroupLayout.DEFAULT_SIZE, 693, Short.MAX_VALUE)
+            .addGroup(jPnCadastroLayout.createSequentialGroup()
+                .addComponent(jPnBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, 697, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPnCadastroLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTfNome)
                     .addGroup(jPnCadastroLayout.createSequentialGroup()
                         .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jTfCod, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator3)
                             .addGroup(jPnCadastroLayout.createSequentialGroup()
                                 .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jTfDtTransacao1)
-                                        .addComponent(jTfDtTransacao, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(jLabel8))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jTfCod, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel13))
+                            .addGroup(jPnCadastroLayout.createSequentialGroup()
                                 .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jTfDtTransacao2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel5))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                    .addComponent(jTfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPnCadastroLayout.createSequentialGroup()
+                                        .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel9)
+                                            .addGroup(jPnCadastroLayout.createSequentialGroup()
+                                                .addComponent(jTfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jLSenha)))
+                                        .addGap(26, 26, 26)
+                                        .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel10)
+                                            .addGroup(jPnCadastroLayout.createSequentialGroup()
+                                                .addComponent(jTfComfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jLComfirmaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel8)
+                                    .addGroup(jPnCadastroLayout.createSequentialGroup()
+                                        .addComponent(jTfLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLLogin))
+                                    .addComponent(jLabel6))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPnCadastroLayout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator2)))
+                        .addContainerGap())
+                    .addGroup(jPnCadastroLayout.createSequentialGroup()
+                        .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                            .addComponent(jTfDtTransacao, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addContainerGap())))
         );
         jPnCadastroLayout.setVerticalGroup(
             jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPnCadastroLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel4)
+                .addGap(11, 11, 11)
+                .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel13))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTfCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel12)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9))
-                .addGap(7, 7, 7)
-                .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTfDtTransacao1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTfDtTransacao2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPnCadastroLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8)
+                        .addGap(8, 8, 8)
+                        .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTfLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLLogin))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                        .addComponent(jLabel11)
+                        .addGap(2, 2, 2)
+                        .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPnCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jTfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLSenha))
+                            .addComponent(jTfComfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPnCadastroLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLComfirmaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
-                .addGap(8, 8, 8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTfDtTransacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addGap(25, 25, 25)
                 .addComponent(jPnBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -233,12 +356,14 @@ public class CadUsuario extends javax.swing.JFrame {
 
         jLabel2.setText("Valor");
 
+        buttonGroup.add(jRBDesc);
         jRBDesc.setText("Descrecente");
 
+        buttonGroup.add(jRbAsc);
         jRbAsc.setSelected(true);
         jRbAsc.setText("Acesdente");
 
-        jCbOrdernar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Código", "Nome", "Sigla", "Dt.Transação" }));
+        jCbOrdernar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Código", "Nome", "Login", "Dt.Transação" }));
 
         jLabel3.setText("Ordenar");
 
@@ -266,14 +391,12 @@ public class CadUsuario extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPnConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jTfValor, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTfValor, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPnConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPnConsultaLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jCbOrdernar, 0, 1, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jCbOrdernar, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, Short.MAX_VALUE)
                         .addGroup(jPnConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPnConsultaLayout.createSequentialGroup()
                                 .addComponent(jRbAsc)
@@ -306,10 +429,10 @@ public class CadUsuario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtAlterarSelecionado)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jTabbed.addTab("Consulta", jPnConsulta);
@@ -318,7 +441,9 @@ public class CadUsuario extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbed)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbed, javax.swing.GroupLayout.PREFERRED_SIZE, 697, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 1, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -326,132 +451,151 @@ public class CadUsuario extends javax.swing.JFrame {
         );
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-714)/2, (screenSize.height-418)/2, 714, 418);
+        setBounds((screenSize.width-714)/2, (screenSize.height-490)/2, 714, 490);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtIncluirActionPerformed
-
-//        setEstado(e.incluir);
-//        lc.LimparCampos(jPnCadastro);
-//        validaEstadoBotoes.ValidaCamposIncluir(jPnCadastro, jPnBotoes);
+        setEstado(e.incluir);
+        lc.LimparCampos(jPnCadastro);
+        jLLogin.setText("0");
+        jLSenha.setText("0");
+        jLComfirmaSenha.setText("");
+        validaEstadoBotoes.ValidaCamposIncluir(jPnCadastro, jPnBotoes);
    }//GEN-LAST:event_jBtIncluirActionPerformed
 
     private void jBtAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarActionPerformed
+        if (jTfCod.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Selecione uma Unidade Federativa para alterar");
+            return;
+        }
 
-//        if (jTfCod.getText().isEmpty()) {
-//            JOptionPane.showMessageDialog(null, "Selecione uma Unidade Federativa para alterar");
-//            return;
-//        }
-//        setEstado(e.alterar);
-//        validaEstadoBotoes.ValidaCamposIncluir(jPnCadastro, jPnBotoes);
+        if (!validaAlterar()) {
+            JOptionPane.showMessageDialog(null, "Não foi possivel alterar os dados do usuário " + jTfLogin.getText() + " a senha informa esta incorreta ou vazia!");
+            setEstado(e.padrao);
+            return;
+        }
+        setEstado(e.alterar);
+        validaEstadoBotoes.ValidaCamposIncluir(jPnCadastro, jPnBotoes);
    }//GEN-LAST:event_jBtAlterarActionPerformed
 
     private void jBtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirActionPerformed
-//        if (jTfCod.getText().isEmpty()) {
-//            JOptionPane.showMessageDialog(null, "Selecione uma Unidade Federativa para excluir");
-//            return;
-//        }
-//        int op = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o estado do '" + jTfSigla.getText() + "' ?", "Exclusão", JOptionPane.YES_NO_OPTION);
-//
-//        if (op == JOptionPane.YES_OPTION) {
-//            setEstado(e.padrao);
-//            ufDao.excluir(setUf());
-//            JOptionPane.showMessageDialog(null, ufDao.getMsg());
-//            lc.LimparCampos(jPnCadastro);
-//        }
+        if (jTfCod.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Selecione um Usuário para excluir");
+            return;
+        }
+        int op = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir o usuário '" + jTfLogin.getText() + "' ?", "Exclusão", JOptionPane.YES_NO_OPTION);
+
+        if (op == JOptionPane.YES_OPTION) {
+            setEstado(e.padrao);
+            uDao.excluir(setUsuario());
+            JOptionPane.showMessageDialog(null, uDao.getMsg());
+            lc.LimparCampos(jPnCadastro);
+        }
     }//GEN-LAST:event_jBtExcluirActionPerformed
 
     private void jBtGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtGravarActionPerformed
 
-//
-//        if (valida()) {
-//
-//            if (getEstado() == e.incluir) {
-//
-//                jTfCod.setText((valida()) ? Integer.toString(ufDao.salvar(setUf())) : "");
-//                jTfDtTransacao.setText(sdf.format(new Date()));
-//                JOptionPane.showMessageDialog(null, ufDao.getMsg());
-//
-//            }
-//            if (getEstado() == e.alterar) {
-//                ufDao.alterar(setUf());
-//                JOptionPane.showMessageDialog(null, ufDao.getMsg());
-//            }
-//            validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
-//        }
+        if (valida()) {
+
+            if (getEstado() == e.incluir) {
+
+                jTfCod.setText((valida()) ? Integer.toString(uDao.salvar(setUsuario())) : "");
+                jTfDtTransacao.setText(sdf.format(new Date()));
+                JOptionPane.showMessageDialog(null, uDao.getMsg());
+
+            }
+            if (getEstado() == e.alterar) {
+                uDao.alterar(setUsuario());
+                JOptionPane.showMessageDialog(null, uDao.getMsg());
+            }
+            validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
+        }
    }//GEN-LAST:event_jBtGravarActionPerformed
 
     private void jBtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCancelarActionPerformed
-//        setEstado(e.padrao);
-//        validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
+        setEstado(e.padrao);
+        validaEstadoBotoes.ValidaCamposCancelar(jPnCadastro, jPnBotoes);
     }//GEN-LAST:event_jBtCancelarActionPerformed
 
     private void jTablePesquisaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePesquisaMouseClicked
 
 
         if (evt.getClickCount() == 2) {
-
             jBtAlterarSelecionadoActionPerformed(null);
         }
     }//GEN-LAST:event_jTablePesquisaMouseClicked
 
     private void jBtPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisarActionPerformed
-//        ufDao.setOrderByOrd((jRbAsc.isSelected()) ? "ASC" : "DESC");
-//
-//        switch (jCbOrdernar.getSelectedIndex()) {
-//
-//            case 0:
-//                ufDao.setOrderByCampoOrd("cd_uf");
-//                break;
-//            case 1:
-//                ufDao.setOrderByCampoOrd("nm_uf");
-//                break;
-//            case 2:
-//                ufDao.setOrderByCampoOrd("sg_uf");
-//                break;
-//            case 3:
-//                ufDao.setOrderByCampoOrd("dt_transacao");
-//                break;
-//
-//        }
-//
-//        switch (jCbTipoPesquisa.getSelectedIndex()) {
-//
-//            case 0:
-//                generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_uf", "nm_uf", "sg_uf", "dt_transacao"}, ufDao.listarTodos());
-//                break;
-//
-//            case 1:
-//                if (vn.validaInteiro(jTfValor)) {
-//                    generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_uf", "nm_uf", "sg_uf", "dt_transacao"}, ufDao.listarCod(Integer.parseInt(jTfValor.getText())));
-//                }
-//                break;
-//
-//
-//            case 2:
-//                generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_uf", "nm_uf", "sg_uf", "dt_transacao"}, ufDao.listarNm(jTfValor.getText()));
-//                break;
-//
-//
-//            case 3:
-//                generico.PreencherJtableGenerico(jTablePesquisa, new String[]{"cd_uf", "nm_uf", "sg_uf", "dt_transacao"}, ufDao.listarSg(jTfValor.getText()));
-//                break;
-//        }
+
+        uDao.setOrderByOrd((jRbAsc.isSelected()) ? "ASC" : "DESC");
+
+        switch (jCbOrdernar.getSelectedIndex()) {
+
+            case 0:
+                uDao.setOrderByCampoOrd("cd_usuario");
+                break;
+            case 1:
+                uDao.setOrderByCampoOrd("nm_usuario");
+                break;
+            case 2:
+                uDao.setOrderByCampoOrd("nm_login");
+                break;
+            case 3:
+                uDao.setOrderByCampoOrd("dt_transacao");
+                break;
+
+        }
+
+        String[] campos = new String[]{"cd_usuario", "nm_usuario", "nm_login", "dt_transacao"};
+
+        switch (jCbTipoPesquisa.getSelectedIndex()) {
+
+            case 0:
+                generico.PreencherJtableGenerico(jTablePesquisa, campos, uDao.listarTodos());
+                break;
+
+            case 1:
+                if (vn.validaInteiro(jTfValor)) {
+                    generico.PreencherJtableGenerico(jTablePesquisa, campos, uDao.listarCod(Integer.parseInt(jTfValor.getText())));
+                }
+                break;
+
+
+            case 2:
+                generico.PreencherJtableGenerico(jTablePesquisa, campos, uDao.listarNome(jTfValor.getText()));
+                break;
+
+
+            case 3:
+                generico.PreencherJtableGenerico(jTablePesquisa, campos, uDao.listarLogin(jTfValor.getText()));
+                break;
+        }
     }//GEN-LAST:event_jBtPesquisarActionPerformed
 
     private void jBtAlterarSelecionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarSelecionadoActionPerformed
-
-//        int cod = Integer.parseInt(jTablePesquisa.getValueAt(jTablePesquisa.getSelectedRow(), 0).toString());
-//        getUf(ufDao.buscarCod(cod));
-//        jTabbed.setSelectedIndex(0);
+        int cod = Integer.parseInt(jTablePesquisa.getValueAt(jTablePesquisa.getSelectedRow(), 0).toString());
+        getUsuario(uDao.buscarCod(cod));
+        jTabbed.setSelectedIndex(0);
    }//GEN-LAST:event_jBtAlterarSelecionadoActionPerformed
 
     private void jTabbedStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedStateChanged
-//        validaEstadoJTabbed.ValidaEstadoJTabbed(jTabbed, jBtIncluir);
-//        if (jPnConsulta.isShowing()) {
-//            generico.limparJtabe(jTablePesquisa);
-//        }
+        validaEstadoJTabbed.ValidaEstadoJTabbed(jTabbed, jBtIncluir);
+        if (jPnConsulta.isShowing()) {
+            generico.limparJtabe(jTablePesquisa);
+        }
     }//GEN-LAST:event_jTabbedStateChanged
+
+    private void jTfLoginKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfLoginKeyReleased
+        contarLogin();
+    }//GEN-LAST:event_jTfLoginKeyReleased
+
+    private void jTfSenhaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfSenhaKeyReleased
+        contarSenha();
+    }//GEN-LAST:event_jTfSenhaKeyReleased
+
+    private void jTfComfSenhaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTfComfSenhaKeyReleased
+        comfirmaSenha();
+    }//GEN-LAST:event_jTfComfSenhaKeyReleased
 
     /**
      * @param args the command line arguments
@@ -495,6 +639,7 @@ public class CadUsuario extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup;
     private javax.swing.JButton jBtAlterar;
     private javax.swing.JButton jBtAlterarSelecionado;
     private javax.swing.JButton jBtCancelar;
@@ -504,11 +649,19 @@ public class CadUsuario extends javax.swing.JFrame {
     private javax.swing.JButton jBtPesquisar;
     private javax.swing.JComboBox jCbOrdernar;
     private javax.swing.JComboBox jCbTipoPesquisa;
+    private javax.swing.JLabel jLComfirmaSenha;
+    private javax.swing.JLabel jLLogin;
+    private javax.swing.JLabel jLSenha;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -519,13 +672,156 @@ public class CadUsuario extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRbAsc;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTabbedPane jTabbed;
     private javax.swing.JTable jTablePesquisa;
     private javax.swing.JTextField jTfCod;
+    private javax.swing.JPasswordField jTfComfSenha;
     private javax.swing.JTextField jTfDtTransacao;
-    private javax.swing.JTextField jTfDtTransacao1;
-    private javax.swing.JTextField jTfDtTransacao2;
+    private javax.swing.JTextField jTfLogin;
     private javax.swing.JTextField jTfNome;
+    private javax.swing.JPasswordField jTfSenha;
     private javax.swing.JTextField jTfValor;
     // End of variables declaration//GEN-END:variables
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    private Usuario setUsuario() {
+
+        Usuario u = new Usuario();
+
+        u.setCd_usuario((jTfCod.getText().isEmpty()) ? new Integer(0) : Integer.parseInt(jTfCod.getText()));
+        u.setNm_usuario(jTfNome.getText().toUpperCase());
+        u.setDs_usuario(jTfLogin.getText());
+        u.setPw_usuario(jTfSenha.getText());
+        u.setDt_transacao(new Date());
+
+        return u;
+    }
+
+    private Boolean valida() {
+
+        if (jTfNome.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Informe o Nome");
+            return false;
+        }
+
+        if (jTfLogin.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Informe o Login");
+            return false;
+        }
+
+
+        if (jTfLogin.getText().length() < 4) {
+            JOptionPane.showMessageDialog(null, "O login deve conter no minimo 4 caracteres");
+            return false;
+        }
+
+
+        if (jTfLogin.getText().length() > 10) {
+            JOptionPane.showMessageDialog(null, "O login deve conter no máximo 10 caracteres");
+            return false;
+        }
+
+        if (jTfSenha.getText().length() < 4) {
+
+            JOptionPane.showMessageDialog(null, "A senha deve conter no minmo 3 caracteres");
+            return false;
+        }
+
+        if (jTfSenha.getText().length() > 8) {
+
+            JOptionPane.showMessageDialog(null, "A senha deve conter no máximo 8 caracteres");
+            return false;
+        }
+
+        if (!jTfSenha.getText().equals(jTfComfSenha.getText())) {
+
+            JOptionPane.showMessageDialog(null, "A senha não corresponde a comfirmação");
+            return false;
+        }
+        return true;
+    }
+
+    private void getUsuario(Usuario u) {
+
+        jTfCod.setText(Integer.toString(u.getCd_usuario()));
+        jTfNome.setText(u.getNm_usuario());
+        jTfLogin.setText(u.getDs_usuario());
+        jTfDtTransacao.setText(sdf.format(u.getDt_transacao()));
+
+    }
+
+    private void contarLogin() {
+
+        int qtdeCaracteres = jTfLogin.getText().length();
+
+        jLLogin.setText(Integer.toString(qtdeCaracteres));
+
+        if (qtdeCaracteres < 4 || qtdeCaracteres > 10) {
+
+            jLLogin.setForeground(Color.red);
+            return;
+        }
+
+        jLLogin.setForeground(Color.BLUE);
+
+    }
+
+    private void contarSenha() {
+
+        int qtdeCaracteres = jTfSenha.getText().length();
+
+        jLSenha.setText(Integer.toString(qtdeCaracteres));
+
+        if (qtdeCaracteres < 4 || qtdeCaracteres > 8) {
+
+            jLSenha.setForeground(Color.red);
+            return;
+        }
+
+        jLSenha.setForeground(Color.BLUE);
+
+    }
+
+    private void comfirmaSenha() {
+
+        String senha = jTfSenha.getText();
+        String comSenha = jTfComfSenha.getText();
+
+        if (senha.equals(comSenha)) {
+
+            jLComfirmaSenha.setText("Senha Comfirmada");
+            jLComfirmaSenha.setForeground(Color.BLUE);
+            return;
+        }
+
+        jLComfirmaSenha.setText("Senhas não coincidem");
+        jLComfirmaSenha.setForeground(Color.RED);
+    }
+
+    private boolean validaAlterar() {
+
+        JPasswordField jpassword = new JPasswordField();
+
+
+        if (JOptionPane.showConfirmDialog(null, jpassword, "Informe a senha", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+
+            Usuario u = uDao.buscarCod(Integer.parseInt(jTfCod.getText()));
+            String senha = new String(jpassword.getPassword());
+            if (senha.equals(u.getPw_usuario())) {
+
+                return true;
+            }
+        }
+        return false;
+
+    }
 }
